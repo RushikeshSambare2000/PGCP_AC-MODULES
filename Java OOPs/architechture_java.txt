@@ -1,0 +1,86 @@
+step 1 : create java file and write an program  (javac test.java)
+
+step 2 : compilation of .java file is started... and converted .java file into .class file(byte code)
+	     byte code is platform independent(run on any system).
+		 
+setp 3 : JRE start execution...(java test) contain two main parts JVM and Library classes(contain prefined classes like printng output, taking input)
+
+step 4 : class loading subsystem.
+	        a)load .class file and required library classes 
+	        b)divided into main three parts
+				 i)loading
+					-bootstrap class loader
+					    -this class loader is reponsible for loading core java API classes present in rt.jar (location:jdk\jre\lib\rt.jar)
+						-this location is called bootstrap class path i.e bootstrap class loader is reposnsible to load classes from bootstrap class path.
+                  	-extension class loader
+					    -it is child of bootstrap class loader (jdk/jre/lib/ext)
+						-class loader is responsible to load classes from extension class path.
+					-Application claass loader
+					    -it is child of extension class loader.
+						-class loader is responsible to load classes from application class path.
+				 ii)Linking
+				    -verify 
+					    -byte code verifer-check byte code correctness
+						-if verification fails then we get runtime exception (java.lang verifyerror)
+					-prepared
+					    -in this phase jvm will allocate memory to the class level static variable and assign default values.(original values will be assigned
+						 in the initialization phase)
+					-resolved
+					    -it is the process of replacing symbolic ref. used by the loaded type with original ref.
+						-symbolic ref are resolved into direct ref by searching through method area to allocate the ref entity.
+						eg. 
+						    class test{
+							    public static void main(string[] agrs){
+								    string s = new string ("Rushikesh");
+									Student s1 = new Student();
+								}
+							}
+						-for above class class loader subsystem loaded test.class, string.class,object.class, student.class repace with atual ref)
+                        -actual ref is stored in constant pool memory of that class.						
+				 iii)Initialization
+(Note : class loader subsystem is responsible to load .class file and any other required prefined classes, to load this classes and some memory is required 
+        so for that memory area is comes in picture)
+		Memory area:
+		    a)method area
+			    when jvm started only one method area is created and share with all threads, so method area is not thread safe.
+			    -class meta data
+			    -static variable
+				-method bytecode
+				-runtime constant pool(symbolic ref)
+			b)heap area
+			    -object and correspondig instance variables are stored in heap memory
+				-when jvm started only one heap area is created and share with all threads, so heap area is not thread safe.
+			c)stack area
+			    -for every tread jvm will create separate stack at the time of tread creation(thread safe)
+				-each and every method call performed by tread stored in stack with local varibale aslo. 
+				-after completing the method the corrosponding enrty is removed from stack. and after completing all method calls the stack will become empty
+				 so stack will distroyed by the jvm just before terminating the tread.
+				-each entry in the stack is called as stack frame or activation record.
+				 frame or activation record:
+				    -Local varibale array:
+					    -contain all parameters and local variable of the method.
+						-each slot in the array is of 4 byte(int,referneces and float occupied one entry/double and long occupied two consecutive entries/
+						 byte,short and char converted into int and occupied one entry/boolean occupied one entry but varied from jvm to jvm)
+					-operand stack
+					    -JVM uses operand stack as workspace some instruction can push the value to the opearand stack and some instruction camn pop the 
+						 values from opearand stack and some instructions can perform required opearand on that values.
+					-frame stack
+					    -return address
+						-reference to runtime constant pool.
+						-exception handling information
+						-method information(which method is executing and this method from which class.)
+			d)pc register(program counter register)
+			    -for every tread jvm will create separate pc register at the time of tread creation(thread safe)
+				-contain address of current executing instruction, once instruction execution completed pc register will automatically increamented to hold
+				 next instruction.
+			e)native method stack
+			    -for every tread jvm will create separate native method stack at the time of tread creation(thread safe).
+				-all native method call involked by the thread will be stored in correspondig native method stack.
+				
+step 5 : JVM execution engine
+           a)Interpreter (byte code to machine code)
+           b)JIT(just in time compiler) (byte code to machine code)
+		    -internally profiler, which is part of JIT compiler is reponsible to indentify hot spot.(analyze the code behaviour at runtime)
+           c)Garbage Collection	   
+			
+		

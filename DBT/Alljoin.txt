@@ -1,0 +1,137 @@
+use kharghar;
+create table employee(
+EmpNo char(3),
+Empname varchar(20),
+salary int,
+DeptNo char(3),
+job char(3),
+MGR char (3)
+)
+;
+create table department(
+DeptNo char(3),
+Dname varchar(20),
+Location varchar(20)
+);
+
+create table department_head(
+DeptNo char(3),
+Dhead varchar(20)
+);
+
+-- department data
+INSERT INTO Department VALUES ('D01','HR','Mumbai');
+INSERT INTO Department VALUES ('D02','IT','Pune');
+INSERT INTO Department VALUES ('D03','Sales','Delhi');
+INSERT INTO Department VALUES ('D04','electrical','pune');
+
+-- employee data
+INSERT INTO Employee VALUES ('E01','Amit',45000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E02','Neha',38000,'D01','HR','E11');
+INSERT INTO Employee VALUES ('E03','Rohit',50000,'D03','SAL','E12');
+INSERT INTO Employee VALUES ('E04','Priya',42000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E05','Karan',47000,'D03','SAL','E12');
+INSERT INTO Employee VALUES ('E06','Sneha',39000,'D01','HR','E11');
+INSERT INTO Employee VALUES ('E07','Vikas',52000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E08','Meena',43000,'D03','SAL','E12');
+INSERT INTO Employee VALUES ('E09','Arjun',41000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E10','Rahul',65000,'D02','MGR',NULL);
+INSERT INTO Employee VALUES ('E11','Sonia',60000,'D01','MGR',NULL);
+INSERT INTO Employee VALUES ('E12','Deepak',62000,'D03','MGR',NULL);
+INSERT INTO Employee VALUES ('E13','Pooja',37000,'D01','HR','E11');
+INSERT INTO Employee VALUES ('E14','Nikhil',48000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E15','Riya',36000,'D01','HR','E11');
+INSERT INTO Employee VALUES ('E16','Sagar',51000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E17','Anita',44000,'D03','SAL','E12');
+INSERT INTO Employee VALUES ('E18','Manish',46000,'D03','SAL','E12');
+INSERT INTO Employee VALUES ('E19','Kavita',40000,'D01','HR','E11');
+INSERT INTO Employee VALUES ('E20','Varun',49500,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E21','rohit',50000,'D02','DEV','E10');
+INSERT INTO Employee VALUES ('E22','sanket',49500,'D05','SAL','E12');
+INSERT INTO Employee VALUES ('E23','gaurav',50000,'D05','SAL','E11');
+
+-- deparment head data
+INSERT INTO department_head (DeptNo, Dhead) VALUES
+('D01', 'Rahul Sharma'),
+('D02', 'Anita Mehta'),
+('D03', 'Suresh Patil'),
+('D04', 'Neha Kulkarni');
+
+select * from employee;
+select * from department;
+select empname, dname from employee, department where department.deptNo=employee.deptno order by 1;
+select  dname, empname from department, employee where department.deptNo=employee.deptno order by 1;
+
+
+-- equijoin/ natural join
+select empname, dname from employee, department
+where department.deptno=employee.deptno;
+
+ 
+ -- nonequijoin 
+ select * from employee;
+select * from department;
+select dname, empname from department, employee
+where department.deptno !=employee.deptno order by 1;
+
+
+
+-- left outer join
+select * from employee;
+select * from department;
+select empname, dname from employee
+left outer join department on 
+(department.deptno=employee.deptno) order by 2;
+
+
+
+-- right outer join
+select * from employee;
+select * from department;
+select empname, dname from employee
+right outer join department on 
+(department.deptno=employee.deptno) order by 2;
+
+
+
+-- full outer join
+select * from employee;
+select * from department;
+select dname,Empname from employee
+right outer join department on 
+(department.deptno=employee.deptno)
+union
+select dname, empname from employee
+left outer join department on 
+(department.deptno=employee.deptno) order by 1;
+
+
+
+-- inner join
+select * from employee;
+select * from department;
+SELECT empname, dname
+FROM employee
+INNER JOIN department
+ON employee.deptno = department.deptno order by dname;
+
+
+
+-- cross join
+select empname, dname from employee, department order by dname;
+
+
+
+-- joining three tables
+select * from employee;
+select * from department;
+select * from department_head;
+select empname, dname, dhead 
+from employee, department,department_head
+where department_head.deptno=department.deptno 
+and department.deptno=employee.deptno order by empname;
+
+
+
+
+
