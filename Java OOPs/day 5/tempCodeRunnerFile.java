@@ -1,0 +1,2 @@
+ // t.methodOne(10, 10); // CE:reference to methodOne is ambiguous, both method and method methodOne(float,int) in Test match
+        // t.methodOne(10.5f, 10.5f);// C.E: cannot find symbol symbol : methodOne(float, float) location : class Test
