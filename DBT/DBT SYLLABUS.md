@@ -3,8 +3,6 @@
 
 
 1. Diff between DBMS and RDBMS. 
-Ans  
-  * 
 2. What is MySQL and tools of MySQL 
    - mysql database
    - mysql-pL
@@ -17,27 +15,20 @@ Ans
    - mysql enterprise high availability
    - mysql enterprise monitor
    - mysql query analyzer
-
 3. Division of SQL (DDL, DML, DCL, DQL, TCL/DTL). 
       TOTAL 16 
       9 - COMMON - 
       5 - MYSQL ORACLE
       2 - ORACLE
-
    DDL- create, alter, drop  , truncate(only for mysql and oracle)
    DML- insert, update , delete ,
    DCL- grant and revoke
    DQL- select 
    TCL/DTL- commit, savepoint and rollback
    in oracle only - merge and upsert
-
    auto commit - 
-
-
 4. Rules of table name .
  - max 30 char
- - 
-
 5. MySQL datatypes
  - char 
  - varchar
@@ -50,11 +41,8 @@ Ans
  - boolean
  - date and time
  - datetieme
- - year
- 
-
+ - yea
 6. create table, insert, select   
-
 7. operators (arithmetic, logical and relational)
    -relational
    >
@@ -75,25 +63,20 @@ Ans
    asc
    desc
 11. exit
-------session 3----
+
+
+*************session 3**************
 12. Special operator (like, between, any, in)
    like- pattern matching
    between - to search in range
    any -
    in  -
 13. update, delete, drop, truncate
-
 14. MySQL transaction processing(rollback, commit, savepoint)
-    
-
 14. Row locking(optimistic and pessimistic)
-   
    user 1                 user 2
    update row 1           row 1 lock (cant update cant delete, cant view updated data)
    commit                 after commit in user1 now user2 can view update and delete
-
-        
-
 15. char function 
    a. concat(fname, lname) --->'rushi' 'sambare' --- rushisambare
    b. upper(fname)  RUSHI---> rushi
@@ -106,7 +89,6 @@ Ans
    i. ascii(ename)      amrin--->97 ascii(A)-->65
    j. char(65 using utf8)          -->a
    k. soundex(ename)  arun               
-
 15. Number functions
   a. round(num), round(num,1)... 1 is decimal point, round(num, -2).. round to nearest hundred
   b. Truncate(num, 0)  122.22 --> 122
@@ -117,11 +99,13 @@ Ans
   g. sqrt(81)          return 9
   h. power(10,3)       10*10*10 = 1000
   i. abs(-15)          15  convert to positive
-
 16. List Functions
   a. ifnull(col, 0)      ---> return 0 if null
   b. greatest(col, 3000) ---> return gratest value
   c. least(sal, 3000)
+
+
+*************session 4**************
 
 17. case expression
     select deptname, dept no
@@ -131,7 +115,6 @@ Ans
     when deptno=2 then "dept no is two",
     else status"none"
     end "status";
-
 18. date functions 
   a. sysdat() --- return server date
   b. now()    --- return before statement 
@@ -143,9 +126,9 @@ Ans
   h. addtime(2010-01-10 11:20:30, '1')------ 2010-01-10 11:20:31  / addtime(2010-01-10 11:20:30, '2:00:00')  add 2 hour
   
 
-  ****session 5***
-  1. user()
-  2. group and aggregate function
+  ********session 5*********
+  19. user()
+  20. group and aggregate function
     a. sum(sal)  
     b. avg(sal)
     c. max(sal) 
@@ -154,9 +137,9 @@ Ans
       * can not select col of table alongwith group function --->(select ename, min(sal) from emp)
       * can not select single row function with group function -->(select upper(ename), min(sal) from emp)
       * can not use with where caluse---> (selec * from emp where sal>ag(sal))
-  3. Group by clause
+  21. Group by clause
   select deptno, sum(sal) from emp group by deptno;  
-  4. having clause
+  22. having clause
    select deptno, sum(sal) from emp group by deptno having sum(sal)>600;
    flow of exe
        - row retrivel
@@ -167,11 +150,10 @@ Ans
        - orderby
 
 
-**** session 6*****
-  5. joins
+********* session 6*********
+  23. joins
     a. equijoin
     b. inequijoin 
-
     c. full outer join
       select dname, ename from emp, dept where dept.deptno(+)=emp,deptno;  --->use in oracle
       select dname, ename from emp left join dept on (dept.deptn=emp,deptno);  --->use in mysql  
@@ -186,7 +168,6 @@ Ans
     e. right outer join 
       select dname, ename from emp, dept where dept.deptno=emp.deptno(+);  --->use in oracle
       select dname, ename from emp right outer join dept on (dept.deptn=emp,deptno);  --->use in mysql
-
     f. inner join
     g. cross join (cartesian join)
          dept no      ename 
@@ -198,12 +179,46 @@ Ans
          2   a
          2   b
     h. self join
-
-  6. joining of 3 and more table 
+  24. joining of 3 and more table 
      1:1       (dhead--department)       
      1:many     
      many:1    
      many:many
+
+
+     *************session 7**************
+  25. Sub Queries
+  26. Multi row sub queries
+  27. co-related sub queries
+  28. set operators 
+    a.union 
+    b.union all
+    c.intersect
+    d.except
+  29. pseudocolumn 
+    a.rowid
+    b.limit
+
+    *************session 8************** 
+  30. indexes
+  31. Ater table
+    a. add column
+       alter table emp add gst float;
+    b. drop column
+       alter tabele emp drop column gst;   
+    c. modify column width(data truncate in case of reduce)
+       alter table emp modify ename varchar(30);
+    d. change datatype of column
+       alter table emp modify empname char(20);
+    e.copy row from one table to another
+      insert into emp select * from emp2;
+    f.copy a table
+      create table emp as select * from emp2;
+    g. copy only structure of table
+      create table emp as select * from emp2;
+      truncate table emp;   
+  32. diff between delete and truncate
+
 
 
 
