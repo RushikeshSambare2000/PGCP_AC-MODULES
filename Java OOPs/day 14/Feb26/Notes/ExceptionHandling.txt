@@ -1,0 +1,533 @@
+An unwanted error which cause our program to terminate in between its execution is known as exception.
+
+Ex. division by zero; accessing array element out of its range
+
+It is important to handle the exception so that program should not terminate due to exception.
+
+Keywords to handle the exception in java:
+try
+catch
+throw
+throws
+finally
+
+
+Each exception generated  is an object of any exception class.
+There are various exception classes like NullPointerException, ArithmeticException, IOException etc.
+
+
+try block - contains the part of code which might cause exception.
+catch block - Handler which comes after try block to catch and handle the exception. This is also called as handler.
+
+A try block can have multiple catch block.
+Against a generated exception inside the try block, only one catch block will execute.
+
+Once an exception is generated, it is caught in one of the catch block and after that program does not return back to the point where exception was generated. Program will continue its execution after respective catch blocks.
+
+======================================
+
+Catch-All Exception Handler/ Universal Exception Handler
+-----------------------------
+
+As Exception class is the parent class of all the exception classes.
+
+=========================================
+
+finally block
+--------------
+It is the block which must execute whether any exception is generated or not.
+
+try with finally without any catch block is possible.
+
+try
+{
+}
+finally
+{
+}
+
+If any exception is generate in try with finally and without any catch block in that case after exception finally block will definitely execute and then our program will terminate.
+
+finally must executes even if we use return, continue or break;
+If we use System.exit(0) i.e. forceful exit, in that case finally will not execute.
+
+=========================================
+Exception methods:
+
+1. getMessage();
+2. printStackTrace();			//Mostly used
+
+=========================================
+
+class ExceptionHandlingDemo
+{
+	public static void myAnotherFun()
+	{
+		try
+		{
+			int res = 5/0;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	public static void myFun()
+	{
+		myAnotherFun();
+	}
+	public static void main(String args[])
+	{
+		
+		System.out.println("Program execution starts ...");
+		int a = 10;
+		int b = 5;
+		int res;
+		
+		int arr[] = {5,10,15};
+		try
+		{
+			myFun();
+			//System.exit(0);
+			//if(true) return;
+			
+			//open database connection
+			res = a/b;		//ArithmeticException
+			System.out.println(res);
+			
+			System.out.println(arr[3]);
+			
+		}
+		catch(ArithmeticException e)
+		{
+			System.out.println("ArithmeticException caught here");
+			//System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		catch(NullPointerException e)
+		{
+			System.out.println("NullPointerException caught here");
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			System.out.println("ArrayIndexOutOfBoundsException caught here");
+		}
+		catch(Exception e)		//catch-all handler
+		{
+			System.out.println("An Exception caught here");
+		}
+		finally
+		{
+			System.out.println("finally block");
+			//close database connection
+		}
+	
+		
+		System.out.println("Program execution completed successfully");
+	}
+}
+
+OUTPUT:
+---------
+
+Program execution starts ...
+java.lang.ArithmeticException: / by zero
+	at ExceptionHandlingDemo.myAnotherFun(ExceptionHandlingDemo.java:7)
+	at ExceptionHandlingDemo.myFun(ExceptionHandlingDemo.java:16)
+	at ExceptionHandlingDemo.main(ExceptionHandlingDemo.java:29)
+2
+ArrayIndexOutOfBoundsException caught here
+finally block
+Program execution completed successfully
+
+
+
+=========================================
+
+User Defined Exception: Defining our own Exception
+------------------------------------------------------
+
+if(age < 18)
+ voter id can not be issued.
+
+Program:
+------------
+
+class MyException extends Exception
+{
+	MyException(String msg)
+	{
+		super(msg);
+	}
+}
+
+
+class UserDefinedExceptionDemo
+{
+	public static void main(String args[])
+	{
+		System.out.println("Program starts ...");
+		int age = 15;
+		
+		try
+		{
+			
+			
+			if(age < 18)
+			{
+				//throw new ArithmeticException("Age is less than 18");  //OK
+				MyException me = new MyException("Age criteria failed, voter id can not be issued!!");
+				throw me;
+				
+				// throw new MyException("Age criteria failed, voter id can not be issued!!");
+			}
+		}
+		catch(MyException e)
+		{
+			//System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		catch(ArithmeticException e)
+		{
+			System.out.println("Exception caught: "+e.getMessage());
+			//e.printStackTrace();
+		}
+		System.out.println("Program execution completed successfully!");
+		
+	}
+}
+
+OUTPUT:
+---------
+Program starts ...
+MyException: Age criteria failed, voter id can not be issued!!
+	at UserDefinedExceptionDemo.main(UserDefinedExceptionDemo.java:24)
+Program execution completed successfully!
+
+===================================================
+
+Exception Types: 
+Checked Exception: Which are checked at the time of compilation. ex. IOException,FileNotFoundException
+Unchecked Exception: Which are not checked at the time of compilation ex. ArithmeticException, NullPointerException
+
+Checked Excepiton must be handled.
+Unchecked Exception may or may not be handled.
+
+Compiler force to handle the checked exception.
+
+For user defined exception classes:
+extends Exception : For creating checked exception class
+extends RuntimeException : For creating unchecked exception class
+
+Example:
+class MyException extends Exception
+{
+}
+
+OR;
+
+class MyException extends RuntimeException
+{
+}
+
+===============================================
+
+Day 11: 1 April 2026
+------------------------
+ 
+throws keyword
+---------------
+
+try
+{
+	//code
+	//throw someExceptionObject
+}
+catch()
+{
+}
+finally
+{
+}
+
+
+throws is used with the method to specify the type of exceptions that method can throw.
+
+
+class Demo
+{
+	void myFun() throws IOException
+	{
+		myAnotherFun();
+	}
+	
+	void myAnotherFun() throws ArithmeticException, IOException
+	{
+		//FileReader fr = new FileReader("/file/path");
+		throw new IOException("/file/path");
+		
+		//code
+		
+		//code
+	}
+}
+
+
+
+When we write like:
+
+void myAnotherFun() throws ArithmeticException, IOException
+
+What does it mean?
+It means that whenever we call myAnotherFun() method, it might throw ArithmeticException or IOException, so it is just making aware the calling method that I might throw such kind of exception so please handle those exceptions.
+
+
+
+main()
+{
+	Demo d1 = new Demo();
+	try
+	{
+		d1.myFun();
+	}
+	catch(ArithmeticException e)
+	{
+	}
+	catch(IOException e)
+	{
+	}
+}
+
+
+
+Exception Propagation
+------------------------
+
+main()  ----> myFun() ----> myAnotherFun() ---> exception took place
+
+Program will terminate <--- JVM <--- main() <--- myFun() <--- myAnotherFun() <--- throw exceptionObject
+
+
+void myAnotherFun() throws IOException
+
+myFun() - may or may not handle IOException. If it does not want to handle and simply want to pass the exception further to the calling method then it can also specify throws like below:
+
+void myFun() throws IOException
+
+OR;
+
+void myFun()
+{
+	try
+	{
+		myAnotherFun();
+	}
+	catch()
+	{
+	}
+}
+
+
+void main() throws IOException
+
+==========================================
+
+A try block can have multiple catch block.
+
+
+Valid Catch Order: (Child first and then Parent)
+
+try
+{
+	//code
+}
+catch(ArithmeticException e)
+{
+}
+catch(IOException e)
+{
+}
+catch(Exception e)
+{
+}
+
+
+OR;
+
+Following is Invalid : because Exception is the parent of ArithmeticException and IOException. So it should come after ArithmeticException and IOException.
+
+If we put parent exception handler above the child handler all the exceptions including parent as well as child will be caught and handled by the parent handler itself and there will be no use of child handler.
+
+try
+{
+	//code
+}
+catch(Exception e)
+{
+}
+catch(ArithmeticException e)
+{
+}
+catch(IOException e)
+{
+}
+
+
+Handler --> catch block --> defining order should be from child exception handler to parent exception handler i.e. child first then parent.
+
+
+===================================================
+
+Handling multiple exceptions using a single catch block
+
+
+try
+{
+	//code
+}
+catch(ArithmeticException | NullPointerException | IOException e)
+{
+}
+catch(Exception e)
+{
+}
+
+
+When we use a single catch block to handle different type of exceptions, we must take care that there should not be any parent-child relationship between any of the handled exceptions which that single block is handling. So folloiwng is NOT CORRECT
+
+try
+{
+	//code
+}
+catch(ArithmeticException | NullPointerException | Exception e)
+{
+}
+
+As Exception is the parent class for ArithmeticException and NullPointerException. So above catch handler is WRONG.
+
+====================================================
+
+Nested try-catch
+-----------------
+
+
+try
+{
+	//code1
+	
+	try
+	{
+		//code2
+	}
+	catch(Exception3 e)
+	{
+	}
+	catch(Exception4 e)
+	{
+	}
+
+}
+catch(Exception1 e)
+{
+}
+catch(Exception2 e)
+{
+}
+
+If any exception is generated due to code1 then it will be handled by outer handlers which are Exception1 and Exception2.
+
+For exception generated in code2 ==> First will be handled by inner handlers which are Exception3 and Exception4 ==> If not handled by inner handlers then will be forwarded to the outer handlers which are Exception1 and Exception2.
+
+Another example of nested try-catch
+------------------------------------
+
+void myFun()
+{
+	try
+	{
+		//code2
+	}
+	catch(Exception3 e)
+	{
+	}
+	catch(Exception4 e)
+	{
+	}
+}
+
+
+void anotherFun()
+{
+	try
+	{
+		myFun();
+	}
+	catch(Exception1 e)
+	{
+	}
+	catch(Exception2 e)
+	{
+	}
+}
+
+===================================
+
+try with resources
+--------------------
+
+Using try with resources we don't need to have a catch or finally block.
+
+try(FileReader fr = new FileReader("/path/to/the/file"))
+{
+	//code
+}
+
+try with resources will automatically close all the resources opened with try whether exception is generated or not and there is no need to keep finally for closing that resource.
+
+----------------
+
+try
+{
+}
+catch
+{
+}
+
+----------------
+
+try
+{
+}
+finally
+{
+}
+
+-----------------
+
+try
+{
+}
+catch
+{
+}
+finally
+{
+}
+-------------------
+
+try(with resources)
+{
+}
+-------------------
+
+
+
+
+
+
+
+
+
+
+
+

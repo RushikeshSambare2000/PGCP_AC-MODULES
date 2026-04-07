@@ -1,0 +1,158 @@
+Interface new Features
+----------------------
+In java 8 - can have implemented i.e. non-abstract method as below:
+public static method   
+public default non-static method 
+
+In java 9 - can have implemented methods (static and non-static) as private
+private static method
+private non-static method
+
+Program:
+----------
+interface MyInterface
+{
+	void myFun1();
+	
+	//implemented i.e. non-abstract methods
+	static void myFun2()
+	{
+		System.out.println("static myFun2 of MyInterface");
+	}
+	
+	default void myFun3()	 //To provide the default implementation	
+	{
+		System.out.println("non-static default myFun3 of MyInterface");
+		//myFun5();
+	}
+	
+	/*private static void myFun4()	//To be used internally inside the interface only
+	{
+	}
+	
+	private void myFun5()		//To be used internally inside the interface only
+	{
+	}*/
+}
+
+
+class MyClass implements MyInterface
+{
+	public void myFun1()
+	{
+		System.out.println("myFun1 of MyClass");
+	}
+	
+	/*public void myFun3()	 //To provide the default implementation	
+	{
+		System.out.println("non-static myFun3 of MyClass");
+	}*/
+}
+
+
+class InterfaceNewFeatureDemo
+{
+	public static void main(String args[])
+	{
+		MyClass mcls1 = new MyClass();
+		mcls1.myFun1();
+		mcls1.myFun3();
+		
+		MyInterface.myFun2();
+	}
+}
+
+OUTPUT:
+-----------
+myFun1 of MyClass
+non-static myFun3 of MyClass
+static myFun2 of MyInterface
+
+==============================================================
+
+Functional Interface --> Interface with only one abstract method.
+
+Example:
+
+interface MyInterface		//Functional Interface
+{
+	void myFun();
+}
+
+
+Marker Interface --> Interface with no abstract method and data
+
+interface MyInterface		//Marker Interface
+{
+} 
+
+Other examples of Marker Interface: Cloneable, Serializable, Remote etc.
+
+interface Cloneable
+{
+}
+
+==============================================================
+
+Bean classes:
+Only data and getter and setter methods. No business logic is put here.
+
+import java.io.Serializable;
+
+class EmployeeBean implements Serializable
+{
+	private int empId;
+	private String name;
+	
+	public EmployeeBean()
+	{
+	}
+	
+	public int getEmpId()
+	{
+		return this.empId;
+	}
+	
+	public void setEmpId(int empId)
+	{
+		this.empId = empId;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+}
+
+
+class BeanDemo
+{
+	public static void main(String args[])
+	{
+		EmployeeBean emp1 = new EmployeeBean();
+		EmployeeBean emp2 = new EmployeeBean();
+		
+		//emp1.empId = 1; //Error
+		
+		emp1.setEmpId(1);
+		emp1.setName("Aakash");
+		
+		emp2.setEmpId(2);
+		emp2.setName("Prakash");
+		
+		System.out.println(emp1.getEmpId() + "," + emp1.getName());
+		System.out.println(emp2.getEmpId() + "," + emp2.getName());
+	
+	}
+}
+
+OUTPUT:
+1,Aakash
+2,Prakash
+
+

@@ -1,0 +1,728 @@
+If we have to apply same logic/operations on different data types then we use generics.
+
+By using generics the same class/interface/methods can work on different data types.
+
+
+Ex.
+
+Class MyGen<T>
+{
+}
+
+
+Above MyGen is a generic class where T is the type parameter.
+
+===================================================================
+
+Program:
+
+class Student
+{
+	int roll;
+	String name;
+	
+	Student(int roll, String name)
+	{
+		this.roll = roll;
+		this.name = name;
+	}
+	
+	public String toString()
+	{
+		return "[" + this.roll + "," + this.name + "]";		// [1,Raj]
+	}
+}
+
+class MyGen <T>
+{
+	T ob;
+	int count;		//We can keep primitive instance variable inside the generic class.
+
+	MyGen(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	T getOb()
+	{
+		return ob;
+	}
+}
+
+class GenDemo
+{
+	public static void main(String args[])
+	{
+		//MyGen<int> mg1 = new MyGen<int>(15);	//ERROR; Generics works with Class type only
+		MyGen<Integer> mg1 = new MyGen<Integer>(15);			//Integer ob = 15
+		Integer iob = mg1.getOb();
+		System.out.println(iob);
+		
+		MyGen<String> mg2 = new MyGen<String>("Welcome");
+		String strOb = mg2.getOb();
+		System.out.println(strOb);
+		
+		Student s = new Student(1,"Raj");
+		MyGen<Student> mg3 = new MyGen<Student>(s);
+		Student studOb = mg3.getOb();
+		System.out.println(studOb);		//System.out.println(sutdOb.toString());	
+		
+		/*mg1 = mg2;			//ERROR; Incompatible types.
+		
+		if(mg1 == mg3)			//ERROR; Incompatible types type of mg1 : MyGen<Integer>
+						//type of mg3 : MyGen<Student>
+		{
+			System.out.println("mg1 == mg3");	
+		}
+		else
+		{
+			System.out.println("mg1 != mg3");
+		}*/
+	}
+}
+
+OUTPUT:
+15
+Welcome
+[1,Raj]
+
+
+===================================================
+
+Object ob = 15;   //OK; Internally; Object ob = new Integer(15);
+
+===================================================
+
+Disadvantage of Non-generic implementation :
+1. Explicit casting is required.
+2. No type safety.
+
+In Generics:
+1. Explicit casting is not required
+2. Type safety is there.
+
+===================================================
+
+Program: Non-generic implementation
+---------------------------------------
+
+class Student
+{
+	int roll;
+	String name;
+	
+	Student(int roll, String name)
+	{
+		this.roll = roll;
+		this.name = name;
+	}
+	
+	public String toString()
+	{
+		return "[" + this.roll + "," + this.name + "]";		// [1,Raj]
+	}
+}
+
+class MyGen
+{
+	Object ob;
+
+	MyGen(Object ob)
+	{
+		this.ob = ob;
+	}
+	
+	Object getOb()
+	{
+		return ob;
+	}
+}
+
+class NonGenDemo
+{
+	public static void main(String args[])
+	{
+		MyGen mg1 = new MyGen(15);			
+		Integer iob = (Integer)mg1.getOb();
+		System.out.println(iob);
+		
+		MyGen mg2 = new MyGen("Welcome");
+		String strOb = (String)mg2.getOb();
+		System.out.println(strOb);
+		
+		Student s = new Student(1,"Raj");
+		MyGen mg3 = new MyGen(s);
+		Student studOb = (Student)mg3.getOb();
+		System.out.println(studOb);	
+		
+		mg1 = mg2;		//Will work; No type safety
+		
+		if(mg1 == mg3)
+		{
+			System.out.println("mg1 == mg3");	
+		}
+		else
+		{
+			System.out.println("mg1 != mg3");
+		}
+		
+		if(mg1.equals(mg3))
+		{
+			System.out.println("mg1.equals(mg3) : true");	
+		}
+		else
+		{
+			System.out.println("mg1.equals(mg3) : false");
+		}		
+	}
+}
+
+OUTPUT:
+15
+Welcome
+[1,Raj]
+mg1 != mg3
+mg1.equals(mg3) : false
+
+===============================================================
+How Generic Works:
+---------------------
+
+class MyGen <T>
+{
+	T ob;
+	int count;		//We can keep primitive instance variable inside the generic class.
+
+	MyGen(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	T getOb()
+	{
+		return ob;
+	}
+}
+
+class GenDemo
+{
+	public static void main(String args[])
+	{
+		//MyGen<int> mg1 = new MyGen<int>(15);	//ERROR; Generics works with Class type only
+		MyGen<Integer> mg1 = new MyGen<Integer>(15);			//Integer ob = 15
+		Integer iob = mg1.getOb();
+		System.out.println(iob);
+		
+		MyGen<String> mg2 = new MyGen<String>("Welcome");
+		String strOb = mg2.getOb();
+		System.out.println(strOb);
+		
+	}
+}
+
+The above program is internally converted to as follows at the time of compilation itself. So type info T is not present at the run time. This entire process of removing type info is also known as Type Erasure.
+
+class MyGen
+{
+	Object ob;
+
+	MyGen(Object ob)
+	{
+		this.ob = ob;
+	}
+	
+	Object getOb()
+	{
+		return ob;
+	}
+}
+
+class NonGenDemo
+{
+	public static void main(String args[])
+	{
+		MyGen mg1 = new MyGen(15);			
+		Integer iob = (Integer)mg1.getOb();
+		System.out.println(iob);
+		
+		MyGen mg2 = new MyGen("Welcome");
+		String strOb = (String)mg2.getOb();
+		System.out.println(strOb);
+	}
+}
+
+=====================================================
+
+There can be more than one type parameter.
+
+class MyGen<T1,T2>
+{
+	T1 ob1;
+	T2 ob2;
+	
+	MyGen()
+	{
+	}
+	
+	void setOb1(T1 ob1)
+	{
+		this.ob1 = ob1;
+	}
+	
+	void setOb2(T2 ob2)
+	{
+		this.ob2 = ob2;
+	}
+	
+	void print()
+	{
+		System.out.println(this.ob1);
+		System.out.println(this.ob2);
+	}
+}
+
+class GenDemo1
+{
+	public static void main(String args[])
+	{
+		MyGen<Integer,String> mg1 = new MyGen<Integer,String>();
+		mg1.setOb1(100);
+		mg1.setOb2("Hello");
+		mg1.print();
+		
+		MyGen<String,Double> mg2 = new MyGen<String,Double>();
+		mg2.setOb1("Welcome");
+		mg2.setOb2(10.0);
+		mg2.print();
+	}
+}
+
+OUTPUT:
+100
+Hello
+Welcome
+10.0
+
+=====================================================
+
+Using extends with the type parameter
+---------------------------------------
+
+extends - gives upper bound.
+
+class MyGen <T extends Number> ==> It means we can take either Number or Child of Number for type T 
+
+
+class MyGen <T extends Number> 	//T can be either Number or Child of Number
+{
+	T ob;
+	int count;		//We can keep primitive instance variable inside the generic class.
+
+	MyGen(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	T getOb()
+	{
+		return ob;
+	}
+}
+
+class GenWithExtendsDemo
+{
+	public static void main(String args[])
+	{
+		MyGen<Integer> mg1 = new MyGen<Integer>(100);	//OK;
+		MyGen<Double> mg2 = new MyGen<Double>(23.5);	//OK;
+		//MyGen<String> mg3 = new MyGen<String>("Hello");	//ERROR; as String is not the 
+									//child of Number
+		
+		System.out.println(mg1.getOb());
+		System.out.println(mg2.getOb());
+							
+	}
+}
+
+=====================================================
+class MyGen <T> 			//Internally; class MyGen <T extends Object>
+
+class MyGen <T> 	//T can be either Number or Child of Number
+{
+	T ob;
+	int count;		//We can keep primitive instance variable inside the generic class.
+
+	MyGen(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	T getOb()
+	{
+		return ob;
+	}
+}
+
+
+Will be converted to:
+
+class MyGen  	//T can be either Number or Child of Number
+{
+	Number ob;
+	int count;		//We can keep primitive instance variable inside the generic class.
+
+	MyGen(Number ob)
+	{
+		this.ob = ob;
+	}
+	
+	Number getOb()
+	{
+		return ob;
+	}
+}
+
+
+=====================================================
+
+No static member (data and methods) can use a type parameter declared by the enclosing class.
+
+class MyGen<T>
+{
+	T a;			//OK; as a is non-static
+	static T b;		//ERROR;
+	
+	
+	void myFun(T x)		//OK; as it is a non-static method
+	{
+	}
+	
+	static void anotherFun(T x)	//ERROR; We can not use class level type parameter with static
+					//data or methods.
+	{
+	}
+}
+
+=====================================================
+We can declare a new type at method level also. The method can be static or non-static.
+
+class Student
+{
+	int roll;
+	String name;
+	
+	Student(int roll, String name)
+	{
+		this.roll = roll;
+		this.name = name;
+	}
+	
+	public String toString()
+	{
+		return "[" + this.roll + "," + this.name + "]";		// [1,Raj]
+	}
+}
+
+class MyGen <T> 	
+{
+	T ob;
+			
+	MyGen(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	T getOb()
+	{
+		return ob;
+	}
+	
+	<T1> void myFun(T1 obj)
+	{
+		System.out.println(obj);
+	}
+	
+	static <T2> void anotherFun(T2 obj)
+	{
+		System.out.println(obj);
+	}
+}
+
+class GenMethodsDemo
+{
+	public static void main(String args[])
+	{
+		MyGen<String> mg1 = new MyGen<String>("Welcome");	//OK;
+		
+		mg1.myFun(new Student(1,"Raj"));
+		MyGen.anotherFun(new Student(2,"Geeta"));					
+	}
+}
+
+OUTPUT:
+[1,Raj]
+[2,Geeta]
+
+=====================================================
+
+Using wildcard arguments --> ?
+
+MyGen<?>  ==> Any valid object of MyGen
+MyGen<? extends Number>  ==> Any valid object of MyGen where type parameter is either Number or Child 
+				of Number
+
+
+Program:
+
+class Student
+{
+	int roll;
+	String name;
+	
+	Student(int roll, String name)
+	{
+		this.roll = roll;
+		this.name = name;
+	}
+	
+	public String toString()
+	{
+		return "[" + this.roll + "," + this.name + "]";		// [1,Raj]
+	}
+}
+
+class MyGen <T> 	
+{
+	T ob;
+			
+	MyGen(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	T getOb()
+	{
+		return ob;
+	}
+	
+	<T1> void myFun(T1 obj)
+	{
+		System.out.println(obj);
+	}
+	
+	void myFirstFun(T obj)
+	{
+		System.out.println(obj);
+	}
+	
+	void mySecondFun(MyGen<T> obj)
+	{
+		System.out.println(obj);
+	}
+	
+	void myThirdFun(MyGen<?> obj)
+	{
+		System.out.println(obj);
+	}
+	
+	void myFourthFun(MyGen<? super Number> obj)
+	{
+		System.out.println(obj);
+	}
+	
+	public String toString()
+	{
+		return ob.toString();
+	}
+}
+
+class UsingWildCardInMethodDemo
+{
+	public static void main(String args[])
+	{
+		MyGen<String> mg1 = new MyGen<String>("Welcome");	//OK;
+		
+		Student s = new Student(1,"Raj");
+		mg1.myFun(s);
+		
+		//mg1.myFirstFun(s);		//ERROR;
+		mg1.myFirstFun("Hello");
+		
+		MyGen<Student> mg2 = new MyGen<Student>(new Student(2,"Geeta"));
+		MyGen<String> mg3 = new MyGen<String>("Friends");	//OK;
+		MyGen<Double> mg4 = new MyGen<Double>(23.5);	//OK;
+		
+		//mg1.mySecondFun(mg2);				//ERROR
+		mg1.mySecondFun(mg3);				//OK
+		
+		mg1.myThirdFun(mg2);				//OK
+		
+		//mg1.myFourthFun(mg2);				//ERROR;
+		
+		mg1.myFourthFun(mg4);				//OK				
+	}
+}
+
+
+=====================================================
+extends - To give the upper bound
+'super' - To give the lower bound
+
+? extends Number  ==> Number or Child of Number
+? super Number    ==> Only parent of Number
+
+---------------------------------------------------
+
+
+void myFourthFun(MyGen<? super Third> obj)
+{
+	System.out.println(obj);
+}
+
+MyGen<? extends Number>  ==> Any valid object of MyGen with Type Parameter either Number or Child of Number.
+
+MyGen<? super Number>   ==> Any valid object of MyGen with Type Parameter as parent class of Number (excludes Number)
+
+class First
+{
+}
+
+class Second extends First
+{
+}
+
+class Third extends Second
+{
+}
+
+
+MyGen<? super Third>  ==> MyGen<Parent of Third>
+---------------------------------------------------
+
+MyGen<Second> ob1;
+MyGen<First> ob2;
+
+myFourthFun(ob1);		//OK
+myFourthFun(ob2);		//OK
+
+=====================================================
+
+Generic Interface
+------------------------
+
+interface MyGenInterface <T>
+{
+	T myFun();
+	void myAnotherFun(T obj);
+}
+
+
+//Generic class implementing a generic interface
+class One<T> implements MyGenInterface<T>
+{
+	T ob;
+	
+	One(T ob)
+	{
+		this.ob = ob;
+	}
+	
+	public T myFun()
+	{
+		//return new T();		//Wrong; we can not use new with Type Parameter
+		return this.ob;
+	}
+	
+	public void myAnotherFun(T obj)
+	{
+		System.out.println(obj);
+	}
+	
+	//other methods
+	
+}
+
+
+//Non-generic class implementing a generic interface.
+class Two implements MyGenInterface<String>
+{
+	String ob;
+	
+	Two(String ob)
+	{
+		this.ob = ob;
+	}
+	
+	public String myFun()
+	{
+		//return new T();		//Wrong; we can not use new with Type Parameter
+		return this.ob;
+	}
+	
+	public void myAnotherFun(String obj)
+	{
+		System.out.println(obj);
+	}
+	
+	//other methods
+	
+}
+
+class GenericInterfaceDemo
+{
+	public static void main(String args[])
+	{
+		MyGenInterface<String> oneOb1 = new One<String>("Hi Friends");
+		//One<String> oneOb1 = new One<String>("Hi Friends");
+		System.out.println(oneOb1.myFun());
+		oneOb1.myAnotherFun("How are you");
+		
+		Two twoOb1 = new Two("Welcome");
+		System.out.println(twoOb1.myFun());
+		twoOb1.myAnotherFun("Guys");
+		
+	}
+}
+
+OUTPUT:
+Hi Friends
+How are you
+Welcome
+Guys
+=====================================================
+
+We CAN NOT USE new keyword with the type parameter T
+
+new T();		//Wrong; will give error.
+
+=====================================================
+A non-generic class can have generic methods.
+A non-generic class can have generic child class
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

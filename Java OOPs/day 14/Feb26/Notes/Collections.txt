@@ -1,0 +1,731 @@
+Day 12: 3 April 2026
+---------------------
+
+Collection is used to handle the group of objects.
+There are various classes/interfaces to handle the group of objects. These are:
+
+List
+Set
+Map
+
+Difference between List & Set
+------------------------------
+List can contain duplicate values but set can not have duplicate values.
+List is ordered collection of objects so objects can be accessed using index but set is not.
+List can contain multiple null values but set can have maximum one null values.
+List maintains the insertion order but set does not.
+Index based accessing is possible in List only and not in Set.
+
+
+Maintaining insertion order means in which order elements/objects are added in the same order it can be retrieved/traversed.
+
+TreeSet stores element in the sorted order but HashSet does not.
+
+=========================================
+add() of Set uses equals() method internally.
+contains(), containsAll(), remove(), removeAll(), retainAll() uses equals() method internally for finding the equality of objects.
+=========================================
+
+The class which is used to store and handle the objects is known as Container Class.
+
+In comparison to normal array, ArrayList is dynamic in nature means we can store any number of objects in the arraylist.
+
+
+==========================================
+
+There are four ways to iterate a collection 
+for-each (List and Set)
+Iterator (List and Set)
+ListIterator (Only for List : can traverse in both direction)
+Enumeration (List and Set)
+
+==========================================
+
+List<?>  ==> It means List<? extends Object>
+
+==========================================
+Utilisation of Set:
+---------------------
+
+Print unique words.
+
+String str = "This is just for the demo. This is good for the understanding"
+
+str.split(" ");		//Array of words
+
+
+String str = "abaacaadaba";
+
+a
+b
+c
+d
+
+Set<Character> s ;
+s.add(str.charAt(i));
+========================================
+
+Sorting ==>
+
+ob1,ob2,ob3
+
+class Student
+{
+	int roll;
+	String name;
+}
+
+
+interface ==> Comparable<T>
+
+class Student implements Comparable<Student>
+{
+	public int compareTo(Student s)
+	{
+		//first object ==> this; second object ==> s
+		// equal = return 0; first > second then return +ve; first < second then return -ve
+		
+		//Comparison based on roll.
+		
+		return this.roll - s.roll;
+	}
+}
+
+Student s1;
+Student s2;
+
+s1.compareTo(s2);
+
+===================================================
+
+Comparable and Comparator interface
+--------------------------------------
+
+import java.util.*;
+
+class Student implements Comparable<Student>
+{
+	int roll;
+	String name;
+	double marks;
+	
+	Student(int roll, String name, double marks)
+	{
+		this.roll = roll;
+		this.name = name;
+		this.marks = marks;
+	}
+	
+	public int hashCode()
+	{
+		return Objects.hash(roll,name,marks);
+	}
+	
+	public boolean equals(Object ob)
+	{
+		if(ob == null) return false;
+		
+		Student s = (Student) ob;
+		
+		if(this.roll == s.roll && this.name.equals(s.name) && this.marks == s.marks)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public int compareTo(Student s)
+	{
+		//first object ==> this; second object ==> ob
+		// equal = return 0; first > second then return +ve; first < second then return -ve
+		
+		//Comparison based on roll.
+		return this.roll - s.roll;
+		
+		//Comparison based on name.
+		//return this.name.compareTo(s.name);		//Using here String's compareTo();
+	}
+	
+	public String toString()
+	{
+		return this.roll + "," + this.name + "," + this.marks;		// [1,Raj]
+	}
+}
+
+//Comparator class to compare two students based on their name.
+class StudNameComparator implements Comparator<Student>
+{
+	public int compare(Student s1, Student s2)
+	{
+		return s1.name.compareTo(s2.name);
+	}
+}
+
+//Comparator class to compare two students based on their marks.
+class StudMarksComparator implements Comparator<Student>
+{
+	public int compare(Student s1, Student s2)
+	{
+		if(s1.marks > s2.marks) return 1;
+		if(s1.marks < s2.marks) return -1;
+		
+		return 0;
+	}
+}
+
+
+class ComparableComparatorDemo
+{
+	public static void display(Collection<?> c)
+	{
+		for(Object ob: c)
+		{
+			System.out.println(ob);
+		}
+	}
+	 
+	public static void main(String args[])
+	{
+		//Set<Student> studSet1 = new HashSet<>();
+		//Set<Student> studSet1 = new TreeSet<>();	//It will use compareTo of Student
+		//Set<Student> studSet1 = new TreeSet<>(new StudNameComparator()); //It will use compare 
+						//of StudNameComparator for comparing student objects
+						
+		Set<Student> studSet1 = new TreeSet<>(new StudMarksComparator()); //It will use compare 
+						//of StudNameComparator for comparing student objects 
+		
+		
+		Student s1 = new Student(1,"Raj",75.3);
+		Student s2 = new Student(2,"Geeta",65.0);
+		
+		studSet1.add(s1);
+		studSet1.add(s2);
+		studSet1.add(new Student(3,"Mohit",75.1));
+		studSet1.add(new Student(4,"Joseph",92.0));
+		studSet1.add(new Student(5,"Radhika",72.0));
+		
+		System.out.println("StudSet1 elements (marks based sorting):");
+		display(studSet1);
+		
+	}
+	
+}
+	
+
+
+OUTPUT:
+StudSet1 elements (marks based sorting):
+2,Geeta,65.0
+5,Radhika,72.0
+3,Mohit,75.1
+1,Raj,75.3
+4,Joseph,92.0
+
+===================================================
+
+Map
+----
+It stores the data in key-value pair.
+Key is unique in map but values can be duplicate.
+We can give null as a key, but that is only for one time. i.e. there can be maximum one null key.
+Like set, map also does not maintain the insertion order.
+Set internally uses Map.
+
+Set <String> set1 = new HashSet<>();
+set1.add("Radha");
+set1.add("Mohan");
+set1.add("Mohid");
+
+When above set is stored as Map internally:
+Key 	Value
+Radha	PRESENT
+Mohan	PRESENT
+Mohid	PRESENT
+
+final Object PRESENT = new Object();
+
+In set whatever we add to the it, it is treated as key and then for value a fixed constant (PRESENT) is set for each key.
+
+
+Map<key,value>
+-----------------
+Map<Integer,String>
+Map<String,Integer>
+Map<Integer,Student>
+
+We can use Iterator or for-each for the classes which are the implementing class for Iterable interface.
+So, we can not use Iterator or for-each to iterate the map elements.
+
+TreeMap : It does keys based sorting. So whenever we use TreeMap, we will retrieve the elements in the sorted order of the keys. So for sorted map based on key, we will use TreeMap.
+
+HashMap : It does not do key based sorting.
+
+Map<Integer,Student> studMap = new HashMap<Integer,Student>();
+Student s1 = new Student(2,"Geeta",78.5);
+studMap.put(1,new Student(1,"Raj",72.5));
+studMap.put(2,s1);
+===================================================
+Day 13: 4 April 2026
+----------------------
+
+Collections - An utility class
+-------------------------------
+
+Collection - an interface
+Collections - a class
+
+All the methods inside the Collections are static.
+
+
+
+import java.util.*;
+class CollectionsClassDemo
+{
+	public static void display(Collection<?> c)
+	{
+		for(Object ob: c)
+		{
+			System.out.println(ob);
+		}
+	}
+	
+	public static void main(String args[])
+	{
+		List<String> list1 = new ArrayList<>();
+		
+		//add method
+		list1.add("Rohit");
+		list1.add("Mohid");
+		list1.add("Aakash");
+		list1.add("Joseph");
+		list1.add("Rajan");
+		
+		System.out.println("List1 elements:");
+		display(list1);
+		
+		//shuffle() method
+		Collections.shuffle(list1);
+		System.out.println("List1 elements after Collections.shuffle(list1):");
+		display(list1);
+		
+		//sort() method
+		Collections.sort(list1);
+		System.out.println("List1 elements after Collections.sort(list1):");
+		display(list1);
+		
+		//sort() in reverseOrder or descending order
+		Collections.sort(list1, Collections.reverseOrder());
+		System.out.println("List1 elements after Collections.sort(list1, Collections.reverseOrder()):");
+		display(list1);
+		
+		//reverse()  to reverse the list
+		Collections.reverse(list1);
+		System.out.println("List1 elements after Collections.reverse(list1):");
+		display(list1);
+		
+		Set<Integer> set1 = new HashSet<>();
+		set1.add(15);
+		set1.add(25);
+		set1.add(10);
+		set1.add(35);
+		set1.add(30);
+		
+		//min() method
+		int minVal = Collections.min(set1);		//can be used for List also
+		System.out.println("Min value after Collections.min(set1): " +  minVal);
+		
+		//min() method
+		int maxVal = Collections.max(set1);		//can be used for List also
+		System.out.println("Max value after Collections.max(set1): " +  maxVal);
+		
+		
+	}
+}
+
+OUTPUT:
+List1 elements:
+Rohit
+Mohid
+Aakash
+Joseph
+Rajan
+List1 elements after Collections.shuffle(list1):
+Mohid
+Rajan
+Joseph
+Aakash
+Rohit
+List1 elements after Collections.sort(list1):
+Aakash
+Joseph
+Mohid
+Rajan
+Rohit
+List1 elements after Collections.sort(list1, Collections.reverseOrder()):
+Rohit
+Rajan
+Mohid
+Joseph
+Aakash
+List1 elements after Collections.reverse(list1):
+Aakash
+Joseph
+Mohid
+Rajan
+Rohit
+Min value after Collections.min(set1): 10
+Max value after Collections.max(set1): 35
+
+=================================================
+
+Arrays : An utility class
+It is used for arrays.
+It contains only static methods same as Collections.
+
+import java.util.*;
+
+class ArraysUtilityDemo
+{
+	static <T> void display(T arr[])
+	{
+		for(T val : arr)
+		{
+			System.out.println(val);
+		}
+	}
+	public static void main(String args[])
+	{
+		int arr1[] = {10,15,5,12,9};
+		
+		System.out.println("Array elements:");
+		for(int v : arr1)
+		{
+			System.out.println(v);
+		}
+		
+		//sort()
+		Arrays.sort(arr1);
+		
+		System.out.println("After Arrays.sort(arr1):");
+		for(int v : arr1)
+		{
+			System.out.println(v);
+		}
+		
+		//toString()  : String representation of an Array
+		System.out.println("Ouput of Arrays.toString(arr1):");
+		//String arrAsStr = Arrays.toString(arr1);	//return "[5, 9, 10, 12, 15]"
+		//System.out.println(arrAsStr);
+		System.out.println(Arrays.toString(arr1));
+		
+		
+		//binarySearch() method
+		Arrays.sort(arr1);			//In place sorting
+		int idx = Arrays.binarySearch(arr1,12);	//returns the index of the found element
+							//in the sorted array
+		System.out.println("Arrays.binarySearch(arr1,12): " + idx);
+		
+		idx = Arrays.binarySearch(arr1,2);		//returns some -ve value if not found
+		System.out.println("Arrays.binarySearch(arr1,16): " + idx);
+		if(idx < 0)
+		{
+			System.out.println("element not found");
+		}
+		
+		//equals() method
+		int arr2[] = {10,15,5,12,9};
+		Arrays.sort(arr1);
+		Arrays.sort(arr2);
+		boolean bl = Arrays.equals(arr1,arr2);		//Both array must be sorted first.
+		System.out.println("Arrays.equals(arr1,arr2): " + bl);
+		
+		//fill() method
+		int arr3[] = new int[5];
+		System.out.println("arr3 elements: " + Arrays.toString(arr3));
+		
+		Arrays.fill(arr3,-1);
+		System.out.println("arr3 elements after Arrays.fill(arr3,-1): " + Arrays.toString(arr3));
+		
+		//copyOf() method
+		int arr4[] = Arrays.copyOf(arr2,10);	// [5, 9, 10, 12, 15, 0, 0, 0, 0, 0]
+		System.out.println("arr4 elements after Arrays.copyOf(arr2,10):");
+		System.out.println(Arrays.toString(arr4));
+		
+		//asList() method
+		Integer arr5[] = {10,15,5,12,9};
+		
+		List<Integer> list1 = Arrays.asList(arr5);
+		
+		System.out.println("list1 after Arrays.asList(arr5):");
+		for(Integer val : list1)
+		{
+			System.out.println(val);
+		}
+		
+		//Array --> List (Backed)
+		
+		arr5[3] = 18;
+		
+		System.out.println("list1 after arr[3] = 18:");
+		for(Integer val : list1)
+		{
+			System.out.println(val);
+		}		
+	}
+}
+
+OUTPUT:
+Array elements:
+10
+15
+5
+12
+9
+After Arrays.sort(arr1):
+5
+9
+10
+12
+15
+Ouput of Arrays.toString(arr1):
+[5, 9, 10, 12, 15]
+Arrays.binarySearch(arr1,12): 3
+Arrays.binarySearch(arr1,16): -1
+element not found
+Arrays.equals(arr1,arr2): true
+arr3 elements: [0, 0, 0, 0, 0]
+arr3 elements after Arrays.fill(arr3,-1): [-1, -1, -1, -1, -1]
+arr4 elements after Arrays.copyOf(arr2,10):
+[5, 9, 10, 12, 15, 0, 0, 0, 0, 0]
+list1 after Arrays.asList(arr5):
+10
+15
+5
+12
+9
+list1 after arr[3] = 18:
+10
+15
+5
+18
+9
+
+=================================================
+
+Collection view of map ==> map.entrySet()
+Collection view of keys ==> map.keySet()
+Collecion view of values ==> map.values();
+
+=================================================
+
+import java.util.*;
+
+class MapDemo
+{
+	static <T1,T2> void displayMap(Map<T1,T2> map)
+	{
+		for(Map.Entry<T1,T2> e: map.entrySet())
+		{
+			T1 key = e.getKey();
+			T2 value = e.getValue();
+			
+			System.out.println(key +"," + value);
+			
+		}
+	}
+	
+	public static void main(String args[])
+	{
+		//HashMap, TreeMap
+		//Roll as a key, name as a value
+		
+		//Map<Integer,String> map1 = new HashMap<Integer,String>();	//OK
+		//Map<Integer,String> map1 = new HashMap<>();			//OK
+		Map<Integer,String> map1 = new HashMap<>();			//OK; Key based sorting
+		
+		//put(key,value) method
+		map1.put(2,"Raj");
+		map1.put(1,"Geeta");
+		map1.put(5,"Joseph");
+		map1.put(4,"Imran");
+		map1.put(3,"Radhika");
+		
+		//get(key) : It returns the object associated with the key
+		String name = map1.get(4);
+		System.out.println("map1.get(4): "+name);
+		
+		map1.put(2,"Meeta");	//Now it will update/replace the object against the key 2
+		
+		name = map1.get(2);
+		System.out.println("map1.get(2): "+name);
+		
+		//Iterate the map
+		System.out.println("Iterating map using for-each:");
+		/*Set<Map.Entry<Integer,String>> set1 = map1.entrySet();
+		for(Map.Entry<Integer,String> e: set1)
+		{
+			Integer key = e.getKey();
+			String value = e.getValue();
+			
+			System.out.println(key +"," + value);
+			
+		}*/
+		
+		for(Map.Entry<Integer,String> e: map1.entrySet())
+		{
+			Integer key = e.getKey();
+			String value = e.getValue();
+			
+			System.out.println(key +"," + value);
+			
+		}
+		
+		System.out.println("Iterating map using using Iterator:");
+		Set<Map.Entry<Integer,String>> set1 = map1.entrySet();
+		Iterator<Map.Entry<Integer,String>> it = set1.iterator();
+		
+		while(it.hasNext())
+		{
+		 	Map.Entry<Integer,String> e = it.next();
+			Integer key = e.getKey();
+			String value = e.getValue();
+			
+			System.out.println(key +"," + value);
+			
+		}
+		
+		Map<String,Integer> map2 = new TreeMap<>();			//OK; Key based sorting
+		
+		//put(key,value) method
+		map2.put("Raj",1);
+		map2.put("Geeta",2);
+		map2.put("Joseph",3);
+		map2.put("Imran",4);
+		map2.put("Radhika",5);
+		
+		System.out.println("map2 elements:");
+		displayMap(map2);
+		
+		//keySet()
+		System.out.println("Map1 keys are:");
+		Set<Integer> kSet = map1.keySet();
+		for(Integer key : kSet)
+		{
+			System.out.println(key);
+		}
+		
+		//values()
+		System.out.println("Map1 values are:");
+		Collection<String> values = map1.values();
+		for(String val : values)
+		{
+			System.out.println(val);
+		}
+		
+		
+		//iterating map2 using Iterator
+		System.out.println("Iterating map2 using Iterator: ");
+		Set<Map.Entry<String,Integer>> entrySet1 = map2.entrySet();
+		Iterator<Map.Entry<String,Integer>> it1 = entrySet1.iterator();
+		while(it1.hasNext())
+		{
+			Map.Entry<String,Integer> e = it1.next();
+			String key = e.getKey();
+			Integer val = e.getValue();
+			
+			System.out.println(key + "," + val);
+		}
+		
+		//containsKey()
+		boolean bl = map1.containsKey(5);
+		System.out.println("map1.containsKey(5) : " + bl);
+		
+		bl = map1.containsKey(6);
+		System.out.println("map1.containsKey(6) : " + bl);
+		
+		//size()
+		System.out.println("map1.size(): " + map1.size());
+		
+		//isEmpty()
+		System.out.println("map1.isEmpty(): " + map1.isEmpty());
+		
+		//remove()
+		map1.remove(4);		//Removing the element from the map with key 4
+		System.out.println("map1 after map1.remove(4):");
+		displayMap(map1);
+	
+	}
+}
+
+OUTPUT:
+---------
+map1.get(4): Imran
+map1.get(2): Meeta
+Iterating map using for-each:
+1,Geeta
+2,Meeta
+3,Radhika
+4,Imran
+5,Joseph
+Iterating map using using Iterator:
+1,Geeta
+2,Meeta
+3,Radhika
+4,Imran
+5,Joseph
+map2 elements:
+Geeta,2
+Imran,4
+Joseph,3
+Radhika,5
+Raj,1
+Map1 keys are:
+1
+2
+3
+4
+5
+Map1 values are:
+Geeta
+Meeta
+Radhika
+Imran
+Joseph
+Iterating map2 using Iterator: 
+Geeta,2
+Imran,4
+Joseph,3
+Radhika,5
+Raj,1
+map1.containsKey(5) : true
+map1.containsKey(6) : false
+map1.size(): 5
+map1.isEmpty(): false
+map1 after map1.remove(4):
+1,Geeta
+2,Meeta
+3,Radhika
+5,Joseph
+===============================================
+
+Thread safe : At a time only one thread will be able to access the resource/object.
+ArrayList : Not Synchronized (Not thread safe)
+Vector : Synhronized (Thread safe)
+
+//If we have to make the list/set/hash map synchronized we can use Collections class method as below:
+List<Student> studList = new ArrayList<>();
+List<Student> syncList = Collections.synchronizedList(studList);
+
+HashMap : Not Synchronized
+HashTable : Synchronized
+
+HashMap<Integer,Student> studMap = new HashMap<>();
+HashMap<Integer,Student> syncMap = Collections.synchronizedMap(studMap);
+
+same for Set
+Set<Student> studSet = new HashSet<>();
+Set<Student> syncSet =Collections.synchronizedSet(studSet);
+
+========================================================================
+

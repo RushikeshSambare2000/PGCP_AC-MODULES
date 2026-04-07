@@ -1,0 +1,729 @@
+DAY-5 : 25 March 2026
+=========================
+
+Class is a blueprint/template for creating objects. It contains data and methods which work upon those data.
+
+Object is an instance of a class.
+
+class = data + methods
+
+A single java file can have multiple classes.
+
+=====================================
+Creating a class
+
+class Student
+{
+	//Data
+	
+	int roll;
+	double marks;
+	String name;
+	
+	//Methods
+}
+
+
+
+Student s1;
+--> It is not creating any object.
+--> s1 is a reference variable which will be used to keep the reference of any Student object.
+
+Object creation
+----------------
+We use new keyword to create any object.
+
+new Student();
+--> It creates a Student object and occupy memory for the same.
+--> Its memory is allocated in the heap area.
+
+There is no limitation on creation of objects of any class.
+=====================================
+
+Dot (.) --> Member access operator
+
+To access or use the data and/or methods of a class we use dot (.) member access operator with the object.
+
+object_reference.member
+member = data, methods
+
+Student s1;	//It does not creates object. It is creating a reference variable.
+s1 = new Student();
+
+s1 is the reference to a Student object.
+OR;
+s1 is an object of Student (in short).
+
+s1.roll = 1;
+s1.name = "Mohit";
+s1.marks = 72.5
+
+
+=====================================
+
+
+class Student
+{
+	//Data
+	
+	int roll;
+	String name;
+	double marks;
+	
+	
+	//Methods
+	
+	void setData(int r, String n, double m)
+	{
+		roll = r;
+		name = n;
+		marks = m;
+	}
+	
+}
+
+Instance Variables ==> Part of the instance ==> roll,name,marks
+Local Variables ==> Method parameters, Variable declared inside method ==> in setData r,n,m are local
+
+Unlike local variables, instance variable has default values.
+
+===========================================
+
+Constructor
+------------
+
+--> It is a special member function of the class which is used to initialize the object at the time of creation.
+
+--> Its name is similar to the class name.
+
+--> Constructor does not have any return type.
+
+--> If we don't define any constructor, JVM internally uses default constructor.
+
+--> There can be multiple overloaded constructors within the class. All the constructor must differ in arguments means either number of arguments should differ or order or type of arguments. This is also known as constructor overloading.
+
+===========================================
+
+'this' keyword
+---------------
+'this' is a keyword which refers to the current object.
+It keeps the reference of the current object.
+
+What is the current object?
+The object which has currently called the method.
+
+
+currentObject ka roll
+
+currentObject.roll;
+this.roll;
+
+Variable Shadowing
+-------------------
+When local variable and instance variable have the same name then variable shadowing occurs. Means local variable hides the instance variable.
+
+We will  use this keyword to differentiate between local and instance variable.
+
+class Student
+{
+	int roll;
+	
+	void updateRoll(int roll)
+	{
+		this.roll = roll;
+	}
+}
+
+
+calling overloaded constructor using this()
+---------------------------------------------
+--> calling one constructor from another constructor.
+--> We can use this() to call another constructor from one constructor. This is also known as constructor chaining.
+--> The constructor calling using this() must be the very first statement inside the calling constructor.
+
+
+=============================================
+
+Method Overloading
+---------------------
+It is defining one than more method with the same name but different arguments (type or order or number of arguments will vary) within the same class.
+Defining multiple constructor inside a class is an example of method overloading.
+
+class Calculator
+{
+	void add(int num1, int num2)
+	{
+		int res = num1 + num2;
+		System.out.println(res);
+	}
+	
+	void add(double num1, double num2)
+	{
+		double res = num1 + num2;
+		System.out.println(res);
+	}
+	
+}
+
+class MethodOverloadingDemo
+{
+	public static void main(String args[])
+	{
+		Calculator cal = new Calculator();
+		cal.add(5,3);
+		cal.add(15.3,12.5);
+		//cal.add('a','b');
+	}
+}
+
+OUTPUT:
+8
+27.8
+=============================================
+
+Type of variables inside class
+-------------------------------
+Instance variable ==> Variables or data which are part of the object.
+Local variable ==> Variable declared inside method or block.
+Static variable ==> Not a part of any object and it belongs to the entire class.
+
+static variable
+----------------
+It is also known as class variable.
+It is not the part of the object.
+It can be accessed using class name.
+For static data member memory is allocated only once.
+
+static methods
+----------------
+It is also known as class methods.
+It can be called using class name.
+No object is required to call the static method.
+
+
+--> To access any static member => className.staticMember
+--> static member (static data and static methods)
+
+Que: Can we use object to access/update the static member
+Ans: YES, we can do that. But standard practice is accessing static members using the class name.
+
+
+class Student
+{
+	int roll;
+	double marks;
+	
+	static String noticeBoard = "Welcome Students";
+	
+	static void displayNoticeBoard()
+	{
+		System.out.println(noticeBoard);
+	}
+}
+
+class StaticDemo
+{
+	public static void main(String args[])
+	{
+		System.out.println(Student.noticeBoard);
+		Student.noticeBoard = "Today is holiday";
+		//System.out.println(Student.noticeBoard);
+		Student.displayNoticeBoard();
+		
+		Student s1 = new Student();	
+		s1.noticeBoard = "Hey, I passed the GATE exam -- Asif"; //object.staticData
+		
+		Student s2 = new Student();
+		s2.displayNoticeBoard();		//object.staticMethod();
+	}
+}
+
+OUTPUT:
+Welcome Students
+Today is holiday
+Hey, I passed the GATE exam -- Asif
+
+
+---------------------------------------
+
+Note: Non-static data member and methods can only be accessed using the object the class.
+
+Que: Can we access non-static data inside the static methods.
+
+---------------------------------------
+NOTE:
+
+Static methods can access only static data/ static methods.
+Non-static methods can access any data/method whether it is static or non-static.
+
+static --> static
+non-static --> static + non-static
+---------------------------------------
+
+
+
+
+DAY-6 : 26 March 2026
+=========================
+
+About defining constructor
+----------------------------
+
+If we define any constructor inside the class then it is our responsibility to define the zero-argument constructor also. 
+
+If we don't define any constructor then JVM uses default constructor but if we define any constructor inside our class then JVM says that it is your responsibility to define the zero-argument constructor also.
+
+It is a good practice to define a zero-arg constructor, if we are defining any non-zero argumnet constructor in our class but it is not mandatory.
+
+Program 1
+--------------
+
+class First
+{
+	int a;
+		
+	void display()
+	{
+		System.out.println(this.a);
+	}	
+}
+
+class StaticNonStaticBlockDemo
+{
+	public static void main(String args[])
+	{
+		First f = new First();			//Zero-arg constructor; OK
+							//JVM will use default constructor
+		f = new First(5);			//Compilation error as there is no one-arg
+							//constructor defined
+		f.display();
+	}
+}
+
+
+
+Program 2:
+-------------
+class First
+{
+	int a;
+		
+	First(int a)			//One-arg constructor 
+	{
+		this.a = a;
+	}
+	
+	void display()
+	{
+		System.out.println(this.a);
+	}	
+}
+
+class StaticNonStaticBlockDemo
+{
+	public static void main(String args[])
+	{
+		First f = new First();			//Zero-arg constructor; Compilation Error
+							//As we have not defined zero-arg constructor
+		f.display();
+	}
+}
+
+
+
+
+Static and Non-static Block
+----------------------------
+
+class First
+{
+	
+	{
+		//non-static block
+	}
+	
+	static
+	{
+		//static block
+	}
+	
+}
+
+If we use static keyword with the block then it becomes static block otherwise it is non-static block.
+
+Non-static block is also known as initializer block.
+
+When we create any object
+
+Order of value initialization/calling
+
+Step 1: Initial value at the time of declaring instance variable
+Step 2: Non-static block
+Step 3: Constructor
+
+class First
+{
+	int a = 5;			//Step 1
+	
+	{
+		//non-static block
+		a = 10			//Step 2
+	}
+	
+	static
+	{
+		//static block
+	}
+	
+	First(int a)			//Step 3
+	{
+		this.a = a;
+	}
+	
+}
+
+Just like static method, we can not access any non-static member (data or methods) within the static block.
+We can access only static member inside the static block.
+
+If we have to perform some operation before the constructor execution we can use static and non-static block.
+
+Static block are always called before non-static block independent of their order in the class.
+
+Static block is executed only once.
+Non-static block will be executed everytime whenever any object is created.
+Static block will be executed before non-static.
+We can define more than one static and non-static blocks.
+Order of execution of static/non-static blocks will be same as their order of definition inside the class (top to bottom).
+
+static blocks --> non-static blocks --> constructor
+
+class First
+{
+	int a = 1;
+	static int b;
+	
+	{
+		//non-static block
+		a = 2;			//OK
+		System.out.println("Non-static block-1");
+	}
+	
+	static
+	{
+		//static block
+		//a = 3;			//ERROR; Can't access non-static member
+		b = 1;				//OK; Can access only static member
+		System.out.println("Static block-1");
+	}
+	
+	{
+		//non-static block
+		a = 3;			//OK
+		System.out.println("Non-static block-2");
+	}
+	
+	static
+	{
+		System.out.println("Static block-2");
+	}
+	
+	First(int a)
+	{
+		this.a = a;
+	}
+	
+	void display()
+	{
+		System.out.println(this.a);
+	}
+	
+	static void print()
+	{
+		System.out.println(b);
+	}	
+}
+
+class StaticNonStaticBlockDemo
+{
+	public static void main(String args[])
+	{
+		First f = new First(5);			//One-arg constructor
+		f.display();
+		First.print();
+		f = new First(10);			//One-arg constructor
+		f.display();
+		First.print();
+	}
+}
+
+OUTPUT:
+Static block-1
+Static block-2
+Non-static block-1
+Non-static block-2
+5
+1
+Non-static block-1
+Non-static block-2
+10
+1
+=======================================================
+
+Call By Value and Call By Reference
+-------------------------------------
+
+Call by value: All the primitive data (byte,short,int,long,float,double,char,boolean) are passed by value.
+Call by reference: All the objects are passed by reference.
+
+class First
+{
+	int a;
+	
+	First(int a)
+	{
+		this.a = a;
+	}
+	
+	void print()
+	{
+		System.out.println(a);
+	}
+	
+	void oneFun(int x)
+	{
+		x = 10;
+		System.out.println("call by value where x = " + x);
+	}
+	
+}
+
+class CallByValueAndReferenceDemo
+{
+	static void anotherFun(First fst)
+	{
+		fst.a = 15;
+	}
+	
+	public static void main(String args[])
+	{
+		First f = new First(10);
+		
+		int p = 5;
+		f.oneFun(p);		//call by value
+		System.out.println(p);
+		
+		
+		f.print();
+		anotherFun(f);	//Call by reference: No new object is created here. Only reference of the 
+				//Same object is passed. So if any change is made in the
+				//object inside called method that will reflect here also
+		f.print();
+	}
+}
+
+OUTPUT:
+call by value where x = 10
+5
+10
+15
+==================================================
+
+
+
+Array of Student
+Student - roll,name,marks;
+User Input: No. of students
+Get the roll,name,marks from the user itself for all the students.
+Display all the student records.
+
+
+class Student{
+
+	//constructor
+	//printDetails();
+}
+
+Student []stud;
+Scanner sc = ....;
+int noOfStudents ;
+noOfStudents = sc.nextInt();
+
+--------------------------------------------------------
+
+
+class ContactDetails
+{
+	String mobNo;
+	String address;
+	String email;
+	
+	//constructor 3 arg
+}
+
+class Student
+{
+	//roll,name,marks;
+	
+	ContactDetails contactDetails;
+	
+	Student(int roll, String name, double marks, ContactDetails contactDetails)
+	{
+		this.roll = roll;
+		this.name = name;
+		this.marks = marks;
+		this.contactDetails = contactDetails;
+	}
+		
+	
+}
+
+class StudentDB
+{
+	psvm()
+	{
+		//User input
+		roll, name, marks
+		mobno, address, email
+		ContactDetails cd = new ContactDetails(mobno, address, email);
+		new Student(roll,name,marks,cd);
+	}
+}
+
+
+============================================
+
+Package
+==========
+Package is a collection of related classes and interfaces.
+
+Example:
+java.util  ==> It contains utility classes ex. Scanner
+java.sql   ==> It contains classes related to database operations
+java.lang  ==> Basic package of the java language.
+java.io	   ==> It contains classes for input output operations.
+
+import java.util.*;
+
+mypack1 
+--------
+class First
+class Second
+
+mypack2
+-------- 
+class Third	
+
+
+UsePackageDemo
+---------------
+import mypack.mypack1.First; 	//It will import only the First class defined inside mypack1 package.
+import mypack.mypack1.*;	//It will import all the classes defined inside mypack1 package.
+import mypack.mypack1.*;	//will import only classes inside mypack1 
+				//and not classes under subpackages
+
+
+Example code:
+
+----------------------
+package mypack.mypack1;
+
+public class First
+{
+	public void funOfFirst()
+	{
+		System.out.println("funOfFirst");
+	}
+}
+
+
+-----------------
+
+package mypack.mypack1;
+
+public class Second
+{
+	public void funOfSecond()
+	{
+		System.out.println("funOfSecond");
+	}
+}
+
+-----------------
+
+package mypack.mypack2;
+
+public class Third
+{
+	public void funOfThird()
+	{
+		System.out.println("funOfThird");
+	}
+}
+
+-----------------
+
+package mypack.mypack1.subpack1;
+
+public class Fourth
+{
+	public void funOfFourth()
+	{
+		System.out.println("funOfFourth");
+	}
+}
+
+-------------------
+
+import mypack.mypack1.*;		//will import only classes and not classes under subpackages
+import mypack.mypack2.Third;
+import mypack.mypack1.subpack1.Fourth;
+
+class UsePackageDemo
+{
+	public static void main(String args[])
+	{
+		First f = new First();
+		f.funOfFirst();
+		
+		Second s = new Second();
+		s.funOfSecond();
+		
+		Third t = new Third();
+		t.funOfThird();
+		
+		Fourth fr = new Fourth();
+		fr.funOfFourth();
+	}
+}
+
+----------------------
+
+OUTPUT:
+funOfFirst
+funOfSecond
+funOfThird
+funOfFourth
+
+===========================================
+
+Creating and using jar for our own packages
+--------------------------------------------
+
+To create jar file: 
+jar cf mypack.jar mypack
+
+To compile with the jar file we will have to use the classpath to give path of the jar
+javac -cp /home/shivnath/Desktop/mypack.jar:. UsePackageDemo.java 
+
+While running using java, there also we need to specify the jar path using classpath
+java -cp /home/shivnath/Desktop/mypack.jar:. UsePackageDemo
+
+
+
+
+
+
+
+
+
+

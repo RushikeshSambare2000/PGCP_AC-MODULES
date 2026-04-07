@@ -1,0 +1,1748 @@
+Day 7: 27 March 2026
+--------------------------
+
+Scanner methods
+----------------
+
+nextInt()
+nextDouble()
+nextFloat()
+nextBoolean()
+
+next()	: It reads one word
+nextLine() : It reads a line
+
+Rohit -- sc.next();
+Rohit Sharma -- sc.nextLine();
+
+
+=========================================
+Student stud = new Student[noOfStudents];	//Array of references for Student objects
+						//It is not creating any object.
+						//Here each array element contains initially null.
+						
+for(int i = 0; i < stud.length; i++)
+{
+	stud[i] = new Student();		//Now object is created and its reference is kept 
+						//in the array.
+}
+==========================================
+
+
+
+Inheritance
+-----------
+It is parent child relationship where child have all the property of parents and apart from that it has its own property.
+
+
+methods --> functions --> behaviour
+data --> property --> state
+object --> instance
+
+
+Parent ---> Child
+
+Parent 	---> 	Child
+A,B		A,B,C
+
+
+Parent Class --> Super class, Base Class
+Child Class  --> Subclass, Derived Class
+
+Using 'extends' keyword parent-child relationship is created.
+
+Syntax: Child extends Parent
+
+Code reusability is one advantage of inheritance.
+
+----------------------------------
+
+Constructors are never inherited.
+----------------------------------
+
+================================================
+
+Types of Inheritance
+---------------------
+
+1. Single Level Inheritance
+2. Multilevel Inheritance
+3. Hierarchical Inheritance
+
+Multiple Inheritance is not allowed in java. It means a class can have only one parent.
+
+
+1. Single Level Inheritance
+----------------------------
+
+class A <---- class B		//class B extends A
+
+
+2. Multilevel Inheritance
+-------------------------
+
+class A <---- class B <---- class C  //class B extends A;  class C extends B
+
+
+3. Hierarchical Inheritance
+-----------------------------
+
+class A <--- class B 	//class B extends A
+class A <--- class C	//class C extends A
+class A <--- class D	//class D extends A
+
+=================================================
+
+Hierarchical Inheritance
+-------------------------
+
+class Cricketer
+{
+	String name;
+	String country;
+	int totMatches;
+	
+	//constructor
+	//printCricketerDetails()
+}
+
+class Batsman extends Cricketer
+{
+	int totRuns;
+	//constructor()
+	//printBatsmanDetails()
+}
+
+class Bowler extends Cricketer
+{
+	int totWickets
+	//constructor()
+	//printBatsmanDetails()
+}
+
+class AllRounder extends Cricketer
+{
+	int totRuns;
+	int totWickets;
+	//constructor()
+	//printAllRounderDetails()
+}
+
+
+=================================
+Day 8: 28 March 2026
+----------------------
+
+Multiple inheritance is not allowed in java.
+A class can not have more than one parent.
+
+So following will give ERROR
+
+class C extends A, B;	//ERROR
+
+
+
+Access Specifiers
+-------------------
+The purpose of access specifier is to specify the access of data, method, class, interface.
+It specifies from where the data/method/class/interface can be accessed or not.
+
+In java there are four types of access specifiers:
+public, private, protected, default.
+
+Following specifiers can be applied with the data & methods
+-------------------------------------------------------------
+public: It can be accessed from anywhere
+private: It can be accessed within the class only
+default: It can be accessed within the same package
+protected: It can be accessed within the same package and outside the package within the child class only.
+
+Following specifiers can be applied with the class/interface:
+-------------------------------------------------------------
+public
+default
+
+For inner class we can use all the four specifiers
+
+class Demo{};			//here specifier: default
+public class Demo{};		//here specifier: public
+
+
+To give the access specifier 'default', we DON'T USE default keyword.
+If we not specify the specifier, it is assumed as default.
+
+
+--------------------------------------
+
+public ==> from anywhere.
+private ==> within the class only.
+default ==> within the package only.
+protected ==> within package + child class (outside package)
+
+--------------------------------------
+In a java file, we can have more than one classes.
+In a java file, we can keep only one public class. Filename is same as public class name.
+
+=========================================
+
+Order of constructor calling
+-----------------------------
+
+Constructor is never inherited.
+
+Whenever any child class object is created the constructor of child as well as parent both will be called.
+
+Order of constructor calling is parent to child (top to down) means first parent constructor will be called and then child constructor will be called.
+
+
+Program
+---------
+class First
+{
+	private int b;
+	First()
+	{
+		b = 5;
+		System.out.println("First constructor called");
+	}
+	
+	void setB(int b)
+	{
+		this.b = b;
+	}
+		
+}
+
+class Second extends First
+{
+	Second()
+	{
+		//b = 10;			//ERROR
+		setB(10);			//OK
+		System.out.println("Second constructor called");
+	}
+}
+
+class Third extends Second
+{
+	Third()
+	{
+		System.out.println("Third constructor called");
+	}
+}
+
+
+public class ConstructorCallingOrderDemo
+{
+	public static void main(String args[])
+	{
+		Third t = new Third();		//It will call First ---> Second ---> Third constructor
+	}
+}
+
+OUTPUT:
+First constructor called
+Second constructor called
+Third constructor called
+
+
+=================================
+Program:
+---------
+class First
+{
+	private int b;
+	First()
+	{
+		b = 5;
+		System.out.println("First constructor called");
+	}
+	
+	void setB(int b)
+	{
+		this.b = b;
+	}
+		
+}
+
+class Second extends First
+{
+	Second()
+	{
+		//b = 10;			//ERROR
+		setB(10);			//OK
+		System.out.println("Second constructor called");
+	}
+}
+
+class Third extends Second
+{
+	Third()
+	{
+		System.out.println("Third constructor called");
+	}
+	
+	Third(int b)
+	{
+		System.out.println("Third constructor - one arg called");
+		setB(b);
+	}
+}
+
+
+public class ConstructorCallingOrderDemo
+{
+	public static void main(String args[])
+	{
+		//new Third();		//It will call First ---> Second ---> Third constructor
+		
+		System.out.println("Calling one-arg constructor");
+		new Third(10);	//It will call 
+				//First zero-arg ---> Second zero-arg ---> Third one-arg constructor
+	}
+}
+
+OUTPUT:
+
+Calling one-arg constructor
+First constructor called
+Second constructor called
+Third constructor - one arg called
+
+
+=================================
+
+'super' keyword
+----------------
+
+- It is a keyword
+- super is used to call/access parent calls method/data.
+- we can use super to call the super class constructor also.
+
+
+- We  can use super() to call the super class constructor.
+	- super() call should be inside the child class constructor.
+	- it must be the very first statement inside the child class constructor.
+
+
+
+super() ==> It will call superclass zero-arg constructor.
+super(int) ==> It will call superclass one-arg constructor.
+
+using super(), we can call any constructor of the superclass. It MUST BE the FIRST STATEMENT in the child class constructor.
+
+this() -- used to call constructor of the same class -- used inside constructor only.
+super() -- used to call constructor of the parent class -- used inside child class constructor only.
+
+
+Using super we can access (call/use) parent class data and methods also inside the child class.
+Syntax:
+super.member    // member = data + methods; To access superclass member
+
+If we are using super keyword to access the member, that can be written anywhere inside the method. But for constructor calling using super() - it must be the first statement inside constructor.
+
+Calling superclass constructor using super() can be used only inside child class constructor and not in any other method. 
+
+
+Program:
+--------------
+
+
+class One
+{
+	One()
+	{
+		System.out.println("Zero-arg constructor of One called");
+	}
+}
+
+class First extends One
+{
+	private int a;
+	
+	First()
+	{
+		System.out.println("Zero-arg constructor of First called");
+		a = 5;
+	}
+	
+	First(int a)
+	{
+		System.out.println("One-arg constructor of First called");
+		this.a = a;
+	}
+	
+	void setA(int a)
+	{
+		this.a = a;
+	}
+	
+	void print()
+	{
+		System.out.println(a);
+	}
+	
+}
+
+class Second extends First
+{
+	Second()
+	{
+		//super(15);   		//OK
+		System.out.println("Zero-arg constructor of Second called");
+	}
+	
+	Second(int a)
+	{
+		super(a);	//It will call one-arg constructor of First and will pass a to that
+		//super();	//It will First class' zero-arg constructor
+		//this.a = a;	//ERROR; a is private in parent
+		//setA(a);
+		System.out.println("One-arg constructor of Second called");
+	}
+	
+	void display()
+	{
+		super.print();		//print() method of parent class;
+		//super.a;		//syntax wise OK but as a is private it will give error 
+	}
+}
+
+class SuperKeywordDemo
+{
+	public static void main(String args[])
+	{
+		Second s = new Second(10);
+		s.display();
+		
+	}
+}
+
+OUTPUT:
+Zero-arg constructor of One called
+One-arg constructor of First called
+One-arg constructor of Second called
+10
+
+
+==========================================
+
+Method Overriding
+---------------------
+
+Method Overloading ==> Method Name Same But Parameter Differs (number/type/order of parameters)
+Method Overriding ==> Method Name Same And Parameter Also Same
+
+
+Method overriding is NOT POSSIBLE within the SAME CLASS.
+Method overloading is possible within the same as well as child class.
+
+Program:
+------------
+class First
+{
+	void myFun()
+	{
+		System.out.println("myFun of First");
+	}
+	
+	void myFun(int a)	//Method Overloading
+	{
+		System.out.println("myFun(int) of First");
+	}
+	
+	void anotherFun(int a)			//Refered as Overridden method
+	{
+		System.out.println("anotherFun of First");
+	}
+	
+}
+
+class Second extends First
+{
+	void myFun(int a, int b)  //Method Overloading
+	{
+		System.out.println("myFun(int,int) of Second");
+		super.anotherFun(25);		//Will call superclass anotherFun() method
+		//anotherFun(25);		//Will call this class anotherFun() method
+	}
+	
+	void anotherFun(int b)	//Method Overriding; refered as Overriding method
+	{
+		System.out.println("anotherFun of Second");
+	}
+}
+
+class MethodOverridingOverloadingDemo
+{
+	public static void main(String args[])
+	{
+		Second s = new Second();
+		//s.myFun();
+		//s.myFun(10);
+		s.myFun(10,15);
+		s.anotherFun(20);
+	}
+}
+
+OUTPUT:
+------
+myFun of First
+myFun(int,int) of Second
+anotherFun of First
+anotherFun of Second
+
+
+----------------------------------------
+
+In the case of method overriding we can use co-variant return type.
+
+In the following program
+co-variant of First --> First, Second, Third
+
+In case of method overriding if required, we can change the return type to the co-variant type only.
+Co-variant means either the same type or the child class of the return type.
+
+class First
+{
+}
+
+class Second extends First
+{
+}
+
+class Third extends First
+{
+}
+
+class Fourth
+{
+}
+
+class One
+{
+	First myFun()
+	{
+		//return new First();
+	}
+}
+
+class Two extends One
+{
+	Third myFun() 		//Method Overriding
+	{
+	}
+	
+}
+
+
+Inside class Two, for myFun() following declarations are OK in case of method overriding
+
+First myFun()
+Second myFun()
+Third myFun()
+
+Fourth myFun();		//ERROR; Return type must be of co-variant type. Four is not the child of First
+
+=====================================
+
+final keyword
+-------------
+
+final ---> Can't be changed
+
+final can be used with
+	1. data  	=> Once intialized, it can not be changed
+	2. method 	=> It can not be overridden
+	3. class  	=> It can not be inherited
+	
+Data 
+-- instance variable  
+	-- we can initialize at the time of declaration or inside the constructor
+	-- once initialized, it can not be changed
+	
+-- local variable
+	-- we can initialize one time at the time or after declaration
+	-- once initialized, it can not be changed
+	
+
+Final Data example:
+Program:
+-----------
+
+class First
+{
+	final int a;
+	
+	First()
+	{
+		a = 0;
+	}
+	
+	First(int a)
+	{
+		this.a = a;
+		//this.a = 5;		//ERROR
+		//a = 10;		//Compilation ERROR
+	}
+	
+	void myFun()
+	{
+		final int val;
+		val = 5;		//OK; First time initialized
+		//val = 10;		//ERROR; already initialized
+	}
+	
+	final void anotherFun()			//Can not be overridden
+	{
+		System.out.println("anotherFun of First");
+	}
+}
+
+final class Second extends First
+{
+	/*void anotherFun()			//ERROR; as anotherFun() in parent is final
+	{
+		System.out.println("anotherFun of Second");
+	}*/
+}
+
+
+class Third extends Second		//ERROR; class Second is final so it can not be inherited
+{
+}
+
+
+class FinalKeywordDemo
+{
+	public static void main(String args[])
+	{
+		//First f = new First(15);
+		Second s = new Second();
+		s.anotherFun();
+	}
+}
+
+==================================
+final class First		//First can not be inherited.
+{
+	int a = 10;
+	
+	void setA(int a)
+	{
+		this.a = a;	//OK; as a is not final
+	}
+}
+==================================
+
+abstract class and methods
+---------------------------
+
+- abstract is a keyword.
+- If we use abstract keyword with class then that class becomes abstract and we can not create object of an abstract class.
+
+
+
+//abstract class : Can not be instantiated. We can create object of abstract class.
+
+abstract class First
+{
+	//code
+}
+
+We can not instantiate class First i.e. We can not create any instance or object of class First as class First is declared abstract here.
+
+
+abstract method
+----------------
+Method without defintion. Method does not have any body and it has only declaration. We have to use abstract keyword with such methods.
+
+If any class has one abstract method then class must be declared as abstract.
+
+It is not mandatory that the abstract class should have atleast one abstract method i.e. an abstract class may or may not have any abstract method.
+
+An abstract class can have abstract and/or concrete (non-abstract) methods.
+
+An abstract class can have instance variables.
+
+Abstract method MUST BE OVERRIDDEN in the CHILD class if we want that child can be instantiated. If we don't override the abstract method in the child class, then the child class will also be treated as abstract and we will have to declare the child class also as abstract.
+
+non-abstract method ==> also known as concrete method
+non-abstract class ==> also known as concrete concrete
+
+
+abstract class First	//OK; however class does not have any abstract method
+{
+}
+
+
+class First		//ERROR; class must be declared abstract as it contains one abstract method
+{
+	abstract void anotherFun();
+}
+
+abstract class First	//OK; class must be declared abstract as it contains one abstract method
+{
+	abstract void anotherFun();
+}
+
+
+---------------
+Program:
+---------------
+abstract class First
+{
+	private int a;
+	
+	First()
+	{
+		this.a = 0;
+	}
+	
+	First(int a)
+	{
+		this.a = a;
+	}
+	
+	void myFun()				//concrete method
+	{
+		System.out.println("myFun of First");
+	}
+	
+	abstract void anotherFun();		//abstract method
+}
+
+class Second extends First
+{
+	void anotherFun()
+	{
+		System.out.println("anotherFun of Second");
+	}
+}
+
+class AbstractClassMethodsDemo
+{
+	public static void main(String args[])
+	{
+		//new First();		//error: First is abstract; cannot be instantiated
+		Second s = new Second();
+		s.anotherFun();
+		s.myFun();
+	}
+}
+--------------
+
+Que: Object of abstract class can not be created then what is its use?
+Ans: However the object of abstract class can not be created but we know that the object of its child class can be created and all the data and methods of the abstract class can be used by the child class object.
+
+Que: As we can not create object of an abstract class, can we have constructor inside the abstract class?
+Ans: YES, we can have as we know whenever any child object is created parent class construtor is also used. So for that purpose we can keep the constructor in the abstract parent class which will be used at the time of creation of child class object.
+
+Que: Can we declare any class/method final as well as abstract?z
+Ans:
+
+final class ==> It can not be inherited	==> Can not be inherited
+abstract class ==> It can not be instantiated. ==> Must be inherited to be used
+
+so final and abstract both contradict each other.
+So we can not use final and abstract both simultaneously.
+
+final method ==> Can not be overridden
+abstract method ==> Must be overridden
+
+
+final class First	//OK;
+{
+}
+
+abstract class First	//OK;
+{
+}
+
+final abstract class First	//ERROR; We can not use final and abstract simultaneously
+{
+}
+ 
+
+=======================================
+
+Polymorphism
+---------------
+One thing multiple form.
+One interface multiple methods.
+
+Storing reference
+------------------
+
+class First
+{
+}
+
+First f = new First();
+
+In the case of inheritance for the child class object we can use the reference variable of parent type also.
+
+class Second extends First
+{
+}
+
+Second s = new Second();		//Reference type of reference variable s is Second
+
+First f = new Second();			//OK;
+
+NOTE:
+Following is fine:
+
+Parent class reference = Child class object
+
+-------------------------------------------
+
+Day-9 30 March 2026
+--------------------
+
+Overriding:
+--------------
+So please make a note of the following:
+
+private methods can not be overridden.
+static methods can not be overridden.
+final methods can not be overridden.
+
+
+Which methods are not inherited:
+Constructor are never inherited.
+Private methods of base class
+
+===========================================
+
+Binding
+--------
+
+To bind method call with the actual method.
+
+CASE-1:
+
+class First
+{
+	void myFun()
+	{
+		System.out.println("myFun of First");
+	}
+}
+
+class Second extends First
+{
+	
+}
+
+class BindingDemo
+{
+	public static void main(String args[])
+	{
+		First f = new First();
+		f.myFun();		//It is bound with myFun() of First.
+		
+		Second s = new Second();
+		s.myFun();		//It is also bound with myFun() of First
+	}
+}
+
+
+
+CASE-2:
+
+class First
+{
+	void myFun()
+	{
+		System.out.println("myFun of First");
+	}
+}
+
+class Second extends First
+{
+	void myFun()
+	{
+		System.out.println("myFun of Second");
+	}
+}
+
+class BindingDemo
+{
+	public static void main(String args[])
+	{
+		First f = new First();
+		f.myFun();		//It is bound with myFun() of First.
+		
+		Second s = new Second();
+		s.myFun();		//It is also bound with myFun() of Second
+	}
+}
+
+
+Binding can be of two types
+1. Static Binding OR Compile Time Binding OR Early Binding (Binding occurs at compile time)
+2. Dynamic Binding OR Runtime Binding OR Late Binding	   (Binding occurs at runtime)  
+
+
+Static Binding Cases:
+1. call to static methods
+2. calling overloaded method
+3. private method
+
+Dynamic Binding Case:
+1. Calling overridden method  
+
+
+Runtime Binding takes place according to the object.
+Static Binding takes place according to the reference type. Compiler always considers reference type and not object.
+
+----------------------------
+For JVM  ==> Object is important
+For Compiler ==> Reference Type is important
+-----------------------------
+
+Redefining private and static methods in the child class with same name and signature is possible but that is NOT OVERRIDING, it is METHOD HIDING.
+
+=======================================================
+
+Example Program:
+
+class First
+{
+	void myFun()
+	{
+		System.out.println("myFun of First");
+	}
+	
+	void myAnotherFun()
+	{
+		System.out.println("myFun(int) of First");
+	}
+	
+	void myAnotherFun(int a)
+	{
+		System.out.println("myAnotherFun(int) of First");
+	}
+}
+
+class Second extends First
+{
+	void myFun()
+	{
+		System.out.println("myFun of Second");
+	}
+}
+
+
+class BindingDemo
+{
+	public static void main(String args[])
+	{
+		First f1 = new First();
+		f1.myFun();		//It is bound with myFun() of First. Dynamic Binding
+		f1.myAnotherFun();	//Static binding
+		
+		First f2 = new Second();
+		f2.myFun();		//It is also bound with myFun() of Second. Dynamic Binding
+		
+		
+	}
+}
+
+=======================================
+
+
+class First
+{
+	void anotherFun()
+	{
+		System.out.println("anotherFun of First");
+	}
+	
+	void oneFun()
+	{
+		System.out.println("oneFun of First");
+		anotherFun();		//Dynamic Binding; will bind based on object at runtime.
+	}
+	
+}
+
+class Second extends First
+{
+	void anotherFun()
+	{
+		System.out.println("anotherFun of Second");
+	}
+		
+}
+
+class DynamicBindingDemo
+{
+	public static void main(String args[])
+	{
+		//First f = new Second();	
+		f.oneFun();
+	}
+} 
+
+OUTPUT:
+oneFun of First
+anotherFun of Second
+
+==========================
+
+class First
+{
+	void anotherFun()
+	{
+		System.out.println("anotherFun of First");
+	}
+	
+	void oneFun()
+	{
+		System.out.println("oneFun of First");
+		anotherFun();		//Static Binding; will bind at compile time.
+	}
+	
+}
+
+class Second extends First
+{
+			
+}
+
+class HidingPrivateStaticDemo
+{
+	public static void main(String args[])
+	{
+		First f = new Second();	
+		f.oneFun();			//static binding
+	}
+} 
+
+OUTPUT:
+oneFun of First
+anotherFun of First
+
+==============================================
+
+class First
+{
+	static void myFun()
+	{
+		System.out.println("myFun of First");
+	}
+	
+	private void anotherFun()
+	{
+		System.out.println("anotherFun of First");
+	}
+	
+	void oneFun()
+	{
+		System.out.println("oneFun of First");
+		anotherFun();		//Static Binding; will bind on compile time.
+		myFun();		//Static Binding; will bind with local myFun of First.
+	}
+	
+}
+
+class Second extends First
+{
+	static void myFun()		//Method Hiding
+	{
+		System.out.println("myFun of Second");	
+	}
+	
+	void anotherFun()		//Method Hiding
+	{
+		System.out.println("anotherFun of Second");
+	}
+	
+	void secondFun()
+	{
+		System.out.println("secondFun of Second");
+		anotherFun();		//Static Binding
+		myFun();		//Static Binding; will bind with local myFun of Second.
+	}	
+}
+
+class HidingPrivateStaticDemo
+{
+	public static void main(String args[])
+	{
+		First f = new Second();	
+		f.oneFun();			//static binding
+		
+		Second s = new Second();
+		s.oneFun();			//static binding
+		s.myFun();
+	}
+} 
+
+OUTPUT:
+oneFun of First
+anotherFun of First
+myFun of First
+oneFun of First
+anotherFun of First
+myFun of First
+================================
+
+TYPE CASTING 
+-------------
+
+int a ;
+double b = 3.75;
+
+a = (int)b;		//Narrowing conversion; casting is must
+b = a;			//Widening conversion; casting is not mandatory.
+
+-------------------------------------
+class First
+{
+}
+
+class Second extends First
+{
+}
+
+class Third
+{
+}
+
+
+First f;		//f contains object's reference
+Second s;		//s contains object's reference
+Third t;		//t contains object's reference
+
+f = s;			//OK; because of parent-child relationship between First and Second
+s = f;			//OK; because of parent-child relationship between First and Second
+
+f = t;			//ERROR; Assignment not possible because NO parent-child relationship
+t = s;			//ERROR; Assignment not possible becuause Second and Third 
+			//have NO parent-child relationship
+
+=====================================
+NOTE: 
+1. Assignment between two reference types are possible only if there is inheritance relationship i.e. parent child relationship between them.
+2. Casting is always possible between parent and child only. i.e. Casting is not possible where there is no parent child relationship.
+
+Sometimes we need casting for such assignmet. This casting can be of two types:
+1. Upcasting   (parnt = child)
+2. Downcasting (child = parent)
+
+MAJOR RULE:
+any class reference type = same class object OR child class object;
+reference type = can not keep parent class object's reference;
+
+A class reference type can contain reference of its own class or its child class only. It means it can not cotain the reference of its parent class object.
+
+Ex;
+class Second extends First
+{
+}
+
+First f = new First();		//OK;
+First f = new Second();		//OK;
+
+Second s = new Second();	//OK;
+Second s = new First();		//ERROR; Not allowed. It means child reference type can not store 
+				//reference of the parent object
+=========================================
+
+class First{}
+
+class Second extends First{}	//Second is the child of First
+
+
+First f;
+Second s;
+
+f = (First)s;			//Upcasting; parent = child; It is not mandatory to explicit cast	
+s = (Second)f;			//Downcasting; child = parent; It is mandatory to explicit cast
+
+Program:
+------------
+
+class FourWheeler
+{
+	public void driveVehicle()
+	{
+		System.out.println("Driving vehicle");
+	}
+}
+
+class Car extends FourWheeler
+{
+	public void driveCar()
+	{
+		System.out.println("Driving car");
+	}
+}
+
+class CastingDemo
+{
+	public static void main(String args[])
+	{
+		FourWheeler fw; 
+		Car car = new Car();
+		
+		//fw = car;			//OK;
+		fw = (FourWheeler)car;		//OK; Upcasting (parnt  = child); Casting not mandatory
+		fw.driveVehicle();
+		((Car)fw).driveCar();		//Casting is required here otherwise compiler will
+						//search driveCar in FourWheeler and will give error.
+		
+		car = (Car)fw;			//OK; Downcasting (child = parent)
+		car.driveCar();			
+		
+	}
+}
+
+
+OUTPUT:
+Driving vehicle
+Driving car
+Driving car
+======================================
+
+Polymorphism:
+One thing multiple form
+
+Ex.
+Method overloading (static binding hence it is also known as Static Polymorphism)
+Method overriding  (dynamic/runtime binding hence is is also known as Runtime Polymorphism)
+
+
+========================================
+
+Interface
+----------
+
+- It is a collection of abstract methods and final static data.
+- Interface is created using interface keyword
+- All the methods inside the interface are public and abstract and we do not need to explicitly mention it.
+- All data are public, static and final inside the interface.
+- 'implements' keyword is used by the class to impelement any interface.
+
+interface ATM
+{
+	int MAX_WITHDRAWAL_LIMIT = 100000;  //all data inside interface are public, static and final
+	
+	checkBalance();			//all methods inside interface public, abstract
+	withdrawMoney();		
+	depositMoney();
+	changePin();
+}
+
+
+WHAT should be there - interface says that
+HOW that will be achieved - it is part of the class
+
+Interface does not provide implementation.
+Implementation is done by the class.
+
+class SBI implements ATM		
+{
+	//implementation of all methods from the interface
+}
+
+class AXISBANK implements ATM
+{
+	//implementation of all methods from the interface
+}
+
+class HDFC implements ATM
+{
+	//implementation of all methods from the interface
+}
+
+
+Above, SBI, AXISBANK, HDFC are the implementing class for the interface ATM.
+
+
+Difference between interface & abstract class:
+------------------------------------------------
+
+interface has all the methods abstract wherear abstract class can have abstract as well as concrete methods.
+
+interface has only static final data whereas abstract class can have static as well as non-static data.
+
+
+As we can store child object's reference in parent class reference type, similarly we can store implementing class objects reference in the interface reference type.
+
+
+class FourWheeler
+{
+}
+
+class Car extends FourWheeler
+{
+}
+
+
+FourWheeler fw = new Car();
+
+
+
+interface ATM
+{
+}
+
+class SBI implements ATM
+{
+}
+
+class HDFC implements ATM
+{
+}
+
+
+ATM atm1 = new SBI();			//OK
+ATM atm2 = new HDFC();			//OK
+
+
+
+============================
+
+DBMS ==> MySQL, Postgres, Oracle
+
+interface DBDriver
+{
+	createConnection();
+	getConnection();
+	closeConnection();
+}
+
+class MySQL implements DBMS
+{
+	//implementation of methods
+}
+
+class Postgres implements DBMS
+{
+	//implementation of methods
+}
+
+class Oracle implements DBMS
+{
+	//implementation of methods
+}
+
+
+Postgres --> createConnection()
+MySQL --> createConnection()
+
+=============================================
+
+
+Relationship between class & interface:
+
+1. A class can extend (inherit) only one class.
+2. A class can implement one or more interface. 
+3. One interface can inherit another interface. 
+4. One interface can inherit more than one interface. So it exhibits the property of multiple inheritance.
+5. extends should always come before implements.
+
+=============================================
+
+
+
+interface A
+{
+	//code
+}
+
+interface B
+{
+	//code
+}
+
+class First
+{
+	//code
+}
+
+See the following declarations :
+
+class One implements A, B		//OK
+{
+	//code
+}
+
+
+class One extends First implements A,B		//OK
+{
+	//code
+}
+
+interface C extends B				//OK
+{
+	//OK
+}
+
+interface C extends A,B				//OK
+{
+}
+
+
+----------------------
+
+class One implements A,B extends First		//ERROR
+
+------------------------
+
+interface A
+{
+	void fun1();
+}
+
+interface B
+{
+	void fun1();
+	void fun2();
+}
+
+class First
+{
+}
+
+class One extends First implements A,B
+{
+	//one implementation of fun1();
+	//implementation of fun2();
+}
+
+
+========================================================
+
+
+Changing access specifiers in the child class while overriding
+-------------------------------------------------------------------
+
+class One
+{
+	public void myFun()
+	{
+	}
+}
+
+class Two extends One
+{
+	public void myFun()
+	{
+	}
+}
+
+
+more restrictive ----> less restrictive
+private ---> default ---> protected ---> public 
+
+
+private		(only inside the class)
+public    	(from anywhere)
+protected 	(same package + child class (other package))
+default 	(same package only)
+
+
+We can change the access specifier for the overridden method in the child from more restrictive to less restrictive.
+
+
+
+Parent --> private void myFun()		//It can not be overridden
+
+
+case 1:
+========
+Parent --> void myFun()
+
+Child  
+-------
+void myFun()
+protected void myFun()
+public void myFun()
+
+case 2:
+========
+Parent --> protected void myFun()
+
+Child  
+-------
+protected void myFun()
+public void myFun()
+
+case 3:
+========
+Parent --> public void myFun()
+
+Child  
+-------
+public void myFun()
+
+
+
+
+weaker access privilege ==> means more restriction
+
+So we can not apply more restriction (weaker access privilege) in the child class in comparison to the parent class.
+
+==============================================================
+
+Day 10: 31 March 2026
+-----------------------
+
+Object class
+-------------
+
+- It is the parent class of all the classes. 
+- No need to mention it using extends. It is implicit that Object class is the parent class for all the objects.
+
+
+class Demo
+{
+}
+
+
+class First
+{
+}
+
+class Student
+{
+}
+
+
+class String;
+
+
+Object is the parent of Demo, First, Student, String and all other classes.
+So whatever method is available inside Object, will be the part of all the classes in java.2
+
+
+Important methods of Object class:
+----------------------------------
+
+1. String toString(): It gives the String representation of any object in form of ClassName@HashcodeOf the object
+2. int hashCode(): It returns the hashcode of the object in decimal format
+3. boolean equals(): It compares two objects using their references
+4. finalize(): It is used during the garbage collection
+
+
+What is hashcode of an object?
+	- It is an unique identification number for each object.
+	- It is not the address of the object.
+	- It can be a negative value
+	- There is possibility that two different objects can have the same hashcode. But it is mostly unique.
+	
+
+toString() method of Object
+----------------------------
+- It gives the String representation of the object.
+- It returns ClassName@HashCode in the Hexadecimal format for the object. 
+
+
+equals() method
+-------------------
+- It compares two objects based on their references and not the data. (Shallow Comparison).
+- If two objects are equal using equals() method
+- Contract between equals() and hashCode() : 
+	If two objects are equal using equals() method, their hashCode MUST also be equal. 
+	But reverse is not true. Means if two objects have the same hashcode then it is not mandatory that they must be equal using equals() method.
+
+
+class Demo
+{
+}
+
+Demo d1;
+Demo d2;
+
+d1.equals(d2);
+
+It is same as
+
+d1 == d2 ;
+
+both of the above does the shallow comparison i.e. it compares only references of the objects.
+
+
+We can override toString() method but we can not override == method because java does not support operator overloading.
+
+== will always do shallow comparison. Means it will always compare the references.
+
+
+finalize() method
+-------------------
+
+- It is called during garbage collection to do the pretask before freeing up the memory.
+- Garbage collection is the process to free up the memory occupied by the objects which are no longer in use.
+
+
+
+Whenever we override equals() method, we will have to override the hashCode() method also so that the objects which are equal using equals() method their hashCode should also be equal.
+
+===========================================
+
+Student s1 = new Student(1,"Sachin");
+System.out.println(s1);		// It internally used toString() ; System.out.println(s1.toString());
+
+Student@HashCode
+Student@4aa298b7
+
+Student[roll = 1, name = Sachin]
+
+Shallow comparison ==> Comparison based on objects references
+Deep comparison ==> Comparison based on objects data
+
+Object is the parent class of all the classes.
+
+Object ob = new Student();		//OK
+
+s1.equals(s2);			//s1 and s2 are object of Student
+
+Object ob = s2;
+
+
+java.lang package is automatically imported and we don't need to import it explicitly.
+
+java.lang.Object;
+
+========================================================
+
+Garbage Collection
+-------------------
+
+- Garbage collection is the process to free up the heap memory space occupied by the objects which are no longer in use.
+- This is done automatically by the JVM.
+- It uses finalize() method during garbage collection.
+
+We can request JVM to run the garbage collection using one of the following methods:
+
+System.gc();
+Runtime.getRuntime().gc();
+
+But it totally depends on JVM to accept or reject our request i.e. to run or not run the garbage collector.
+
+Which objects are eligible for garbage collection?
+The object, whose reference is stored nowhere.
+
+Possible cases for objects to be eligible for garbage collection:
+1. Nullifying the reference variable.
+2. Reassigning the reference variable.
+3. Anonymous object creation i.e. creating the object but not storing its reference
+4. Local reference variable
+5. Island of isolation
+
+Difference between System.gc() and Runtime.getRuntime.gc() . 
+-------------------------------------------------------------
+
+System.gc()internally calls Runtime.getRuntime.gc() . 
+The only difference is System.gc() is a class method whereas Runtime.getRuntime.gc() is an instance method.
+
+
+===========================================
+
+Signleton class
+----------------
+There should be only one instance of the class.
+We can not create more than one instance of that class.
+
+class Demo
+{
+}
+
+psvm()
+{
+	
+}
+
+
+=============================================
+
+public static void main(String args[])
+{
+}
+
+
+static : main method is static, so that it can be called by the JVM without creating any object as main is the starting point of execution.
+
+public : should be accessible by jvm outside the class/package
+
+String args[] : Array of String which stores the command line arguments.
+
+
+for-each loop in Array
+-------------------------
+
+int arr[] = {5,10,15,20,25};
+
+for(int i = 0; i < arr.length; i++)
+{
+	System.out.println(arr[i]);
+}
+
+//Using for-each loop to iterate the array
+
+for(int val : arr)
+{
+	System.out.println(val);
+}
+
+======================================
+
+Association: Relationship between Objects
+---------------------------------------------
+1. Aggregation (HAS_A relationship) => One object can exist independently without another
+2. Composition (PART_OF relationship) => The child object can not exist without parent
+3. Inheritance (IS_A relationship)
+
+class Address
+{
+	String addressLine1;
+	String addressLine2;
+	String pin;
+}
+
+class Employee
+{
+	String empId;
+	String empName;
+	Address address;
+}
+
+class BankAccount
+{
+	String bankName;
+}
+
+Address is the PART_OF Employee.
+
+Employee has a BankAccount.
+
+Employee e = new Employee(1,"Raj",addr);
+BankAccount bacct = new BankAccount("SBI");
+
+System.out.println(e.empName + " has a bank account in " + bacct.bankName);
+
+class Cricketer
+{
+}
+
+class Batsman extends Cricketer
+{
+}
+
+class Bowler extends Cricketer
+{
+}
+
+
+Batsman IS_A Cricketer.
+Bowler IS_A Cricketer.
+
+	
+
+
+

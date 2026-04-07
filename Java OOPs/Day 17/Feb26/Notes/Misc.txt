@@ -1,0 +1,1083 @@
+Interface new Features
+----------------------
+In java 8 - can have implemented i.e. non-abstract method as below:
+public static method   
+public default non-static method 
+
+In java 9 - can have implemented methods (static and non-static) as private
+private static method
+private non-static method
+
+Program:
+----------
+interface MyInterface
+{
+	void myFun1();
+	
+	//implemented i.e. non-abstract methods
+	static void myFun2()
+	{
+		System.out.println("static myFun2 of MyInterface");
+	}
+	
+	default void myFun3()	 //To provide the default implementation	
+	{
+		System.out.println("non-static default myFun3 of MyInterface");
+		//myFun5();
+	}
+	
+	/*private static void myFun4()	//To be used internally inside the interface only
+	{
+	}
+	
+	private void myFun5()		//To be used internally inside the interface only
+	{
+	}*/
+}
+
+
+class MyClass implements MyInterface
+{
+	public void myFun1()
+	{
+		System.out.println("myFun1 of MyClass");
+	}
+	
+	/*public void myFun3()	 //To provide the default implementation	
+	{
+		System.out.println("non-static myFun3 of MyClass");
+	}*/
+}
+
+
+class InterfaceNewFeatureDemo
+{
+	public static void main(String args[])
+	{
+		MyClass mcls1 = new MyClass();
+		mcls1.myFun1();
+		mcls1.myFun3();
+		
+		MyInterface.myFun2();
+	}
+}
+
+OUTPUT:
+-----------
+myFun1 of MyClass
+non-static myFun3 of MyClass
+static myFun2 of MyInterface
+
+==============================================================
+
+Functional Interface --> Interface with only one abstract method.
+
+Example:
+
+interface MyInterface		//Functional Interface
+{
+	void myFun();
+}
+
+
+Marker Interface --> Interface with no abstract method and data
+
+interface MyInterface		//Marker Interface
+{
+} 
+
+Other examples of Marker Interface: Cloneable, Serializable, Remote etc.
+
+interface Cloneable
+{
+}
+
+==============================================================
+
+Bean classes:
+Only data and getter and setter methods. No business logic is put here.
+
+import java.io.Serializable;
+
+class EmployeeBean implements Serializable
+{
+	private int empId;
+	private String name;
+	
+	public EmployeeBean()
+	{
+	}
+	
+	public int getEmpId()
+	{
+		return this.empId;
+	}
+	
+	public void setEmpId(int empId)
+	{
+		this.empId = empId;
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+}
+
+
+class BeanDemo
+{
+	public static void main(String args[])
+	{
+		EmployeeBean emp1 = new EmployeeBean();
+		EmployeeBean emp2 = new EmployeeBean();
+		
+		//emp1.empId = 1; //Error
+		
+		emp1.setEmpId(1);
+		emp1.setName("Aakash");
+		
+		emp2.setEmpId(2);
+		emp2.setName("Prakash");
+		
+		System.out.println(emp1.getEmpId() + "," + emp1.getName());
+		System.out.println(emp2.getEmpId() + "," + emp2.getName());
+	
+	}
+}
+
+OUTPUT:
+1,Aakash
+2,Prakash
+
+
+====================================================
+
+Day 14: 5 April 2026
+----------------------
+
+
+Inner Class
+-------------
+
+Defining class inside another class/interface/methods is known as inner class.
+
+1. Inner class
+2. Static Inner Class
+3. Method Inner class
+4. Anonymous Inner class
+
+Outer class : default, public
+inner class : default, public, private, protected
+
+Enclosing outer class can access the member (data & methods) of inner class only by creating inner class object. But inner class can acess the member (data & methods) of enclosing outer class.
+
+To create inner class object/instance, we must have outer class object/instance.
+To create the static inner class object, we don't need to create the enclosing outer class object.
+
+Method's inner class object can be created inside the enclosing method only.
+
+Anonymous inner class --> inner class without any name
+
+Anonymous inner class is defined inside the method only.
+
+//MyInterface mif1 = new MyInterface(){}; 	//Syntax of anonymous inner class.
+						//Implementation + object creation
+
+
+
+Inner Interface
+--------------------
+One interface can have another interface inside it.
+
+interface MyInterface
+{
+	void myFun();
+	
+	interface MyAnotherInterface
+	{
+		void anotherFun();
+	}
+}
+
+class First implements MyInterface	//Implementing class First need to implement only myFun()
+{
+	public void myFun()
+	{
+		System.out.println("First: myFun");
+	}
+}
+
+class Second implements MyInterface.MyAnotherInterface 	//Implementing class Second need 
+							//to implement only myFun()
+{
+	public void anotherFun()
+	{
+		System.out.println("Second: anotherFun");
+	}
+}
+
+class InnerInterfaceDemo
+{
+	public static void main(String args[])
+	{
+		//new First().myFun();
+		//new Second().anotherFun();
+		
+		MyInterface mif = new First();
+		MyInterface.MyAnotherInterface maf = new Second();
+		
+		mif.myFun();
+		maf.anotherFun();
+		
+	}
+}
+
+OUTPUT:
+------------
+First: myFun
+Second: anotherFun
+
+====================================================
+
+Lambda Expressions  ==> Used for Functional Interface
+------------------------------------------------
+
+Functional interface ==> Interface with exactly one abstract method.
+
+Lambda expression is used for the implementation of functional interface.
+We can use lambda expression to pass the functional interface object to methods.
+
+Syntax of lambda expression: () -> {}
+
+interface MyInterface
+{
+	void myFun();
+}
+
+
+Lambda expression example:
+
+MyInterface mif1 = () -> { System.out.println("myFun called"); };
+mif1.myFun();				//Will print myFun called.
+
+If in lambda, there is only one statement inside {} then we can remove {};
+
+It is not necessary to mention the data type for the argument inside ().
+If there is only one argument in () then we can remove ().
+
+interface AddCalculator
+{
+	int add(int a, int b);
+}
+
+//Lambda for AddCalculator
+
+//AddCalculator ac2 = (int a, int b) -> { return a+b; } ;
+//AddCalculator ac2 = (a, b) -> { return a+b; } ;
+AddCalculator ac2 = (a, b) -> a+b;		//No need to mention return if we remove {}
+
+ac2.add(15,30);			//will return 45
+
+===============================================================
+Method Reference
+-----------------
+It is also used as lambda expression where methods can be referred as follows:
+classname::static method
+object::non-static method
+classname::new     ==> creating new object of the class
+
+class System
+{
+	static PrintStream out = new PrintStream();
+}
+
+class PrintStream
+{
+	void println()
+	{
+	}
+}	
+
+
+
+interface Consumer<T>
+{
+	void accept(T a);
+}
+
+//Lambda expression for Consumer<String>
+
+//Consumer<String> cons2 = (s) -> System.out.println(s);
+//Consumer<String> cons2 = s -> System.out.println(s);
+Consumer<String> cons2 = System.out::println;
+cons2.accept("Welcome friends!!");
+	
+===============================================================
+
+LambdaExp --> Functional Interface
+
+method(FunctionalInterface obj)
+{
+}
+
+method(LambdaExp)
+
+--------------------------------------
+
+interface Consumer<T>
+{
+	void accept(T a);
+}
+
+interface MyInterface <T1,T2>
+{
+	void doSomething(T1 a, T2 b);
+}
+
+class Demo 
+{
+	int a;
+	
+	Demo(){}
+	
+	Demo(int a)
+	{
+		this.a = a;
+	}
+	
+	static void print(String s)
+	{
+		System.out.println(s);
+	}
+	
+	void doSum(Integer a, Integer b)
+	{
+		int res = a + b;
+		System.out.println(res);
+	}
+	
+	void oneFun(Demo d)
+	{
+		int res = this.a * d.a;
+		System.out.println("oneFun of Demo : " + res);
+			
+	}
+	
+	static void twoFun(Consumer<String> c)
+	{
+		c.accept("Hi guys, how are you");
+	}
+	
+}
+
+
+
+class MethodReferenceDemo1
+{
+	public static void main(String args[])
+	{
+		//Anonymous inner class for Consumer<T>
+		
+		Consumer<String> cons1 = new Consumer<String>(){
+			public void accept(String s)
+			{
+				//System.out.println(s);
+				Demo.print(s);
+			}
+		};
+		
+		cons1.accept("Hello guys!!");
+		
+		//Lambda expression for Consumer<String>
+		//Consumer<String> cons2 = (s) -> System.out.println(s);
+		//Consumer<String> cons2 = s -> System.out.println(s);
+		//Consumer<String> cons2 = System.out::println;		//object::non-static method
+		Consumer<String> cons2 = Demo::print;			//class::static method
+		cons2.accept("Welcome friends!!");
+		
+		//Passing lambda expression as argument as FunctionalInterface implementation
+		//Demo.twoFun(cons2);
+		//Demo.twoFun(s -> System.out.println(s));
+		//Demo.twoFun(System.out::println);
+		Demo.twoFun(Demo::print);
+		
+		//Anonymous Inner class for MyInterface<Integer, Integer>
+		MyInterface <Integer,Integer> mif1 = new MyInterface<Integer,Integer>(){
+			public void doSomething(Integer p, Integer q)
+			{
+				new Demo().doSum(p,q);
+			}
+		};
+		
+		mif1.doSomething(15,35);
+		
+		//Lambda expression for MyInterface<Integer,Integer>
+		//MyInterface <Integer,Integer> mif2 = (p,q) -> {new Demo().doSum(p,q); };
+		MyInterface <Integer,Integer> mif2 = new Demo()::doSum;
+		mif2.doSomething(25,15);
+		
+		//Anonymous Inner class for MyInterface<Demo, Demo>
+		MyInterface <Demo,Demo> mif3 = new MyInterface<Demo,Demo>(){
+			public void doSomething(Demo p, Demo q)
+			{
+				p.oneFun(q);
+			}
+		};
+		
+		Demo d1 = new Demo(3);
+		Demo d2 = new Demo(5);
+		
+		mif3.doSomething(d1,d2);
+		
+		//Lambda expression for MyInterface<Demo, Demo>
+		//MyInterface <Demo,Demo> mif4 = (p, q) -> { p.oneFun(q); };
+		//MyInterface <Demo,Demo> mif4 = (p, q) -> p.oneFun(q);
+		MyInterface <Demo,Demo> mif4 = Demo::oneFun;	//Internally (p, q) -> p.oneFun(q);
+		
+		d1 = new Demo(6);
+		d2 = new Demo(8);
+		
+		mif4.doSomething(d1,d2);
+		
+		
+	}
+}
+
+
+OUTPUT:
+----------
+Hello guys!!
+Welcome friends!!
+Hi guys, how are you
+50
+40
+oneFun of Demo : 15
+oneFun of Demo : 48
+=========================================================
+
+
+Stream API
+------------
+
+It is used to process the collection of objects using the various intermediate and terminating methods.
+Stream is basically sequence of objects.
+It takes input from the Collections, Arrays, I/O channel.
+It enable us to perform operations like filtering, mapping, reducing, and sorting.
+Stream can be sequential or parallel.
+
+It contains
+- Intermediate operations (Lazy operations) stateless and stateful
+- Terminate operations
+
+Important methods:
+map()		- intermediate operation, stateless
+filter() 	- intermediate operation, stateless
+peek() 		- intermediate operation
+sorted()	- intermediate operation, stateful
+of()		- intermediate operation
+distinct()	- intermediate operation, stateful
+concat()	- intermediate operation
+reduce() 	- terminal operation
+forEach() 	- terminal operation
+min() 		- terminal operation
+max() 		- terminal operation
+collect() 	- terminal operation
+
+studList.stream();
+studList.parallelStream();
+
+Once terminal operation is applied on the stream, we can not reuse that stream.
+
+Intermediate operations are further divided into stateless and stateful operations. Stateless operations, such as filter and map, retain no state from previously seen element when processing a new element -- each element can be processed independently of operations on other elements. Stateful operations, such as distinct and sorted, may incorporate state from previously seen elements when processing new elements.
+
+Stateful operations may need to process the entire input before producing a result. For example, one cannot produce any results from sorting a stream until one has seen all elements of the stream. 
+
+=========================================================
+
+Day 17: 7 April 2026
+-----------------------
+
+List: default capacity: 10 (load factor = 0.75, capacity increase = old capacity + old capacity/2)
+Set:  default capacity: 16 (load factor = 0.75, capacity increase = old capacity * 2)
+Map:  default capacity: 16 (load factor = 0.75, capacity increase = old capacity * 2)
+
+
+difference between size and capacity
+
+List<String> strList = new ArrayList<>();
+
+size = 0;		//No. of elements added
+capacity = 10;		//How many elements it can keep
+
+strList.add("Hello");
+size = 1;		//No. of elements added
+capacity = 10;		//How many elements it can keep
+
+=========================================================
+
+Cloning
+---------
+Creating a replica or copy of object of an existing object.
+An object can only be cloned if its class is implementing the Cloneable marker interface.
+It should override the clone() method of the Object class.
+
+
+class Demo
+{
+	int a;
+}
+
+class First
+{
+	int b;
+	Demo d;
+}
+
+//Clone the First object
+
+----------------------------------
+
+class Demo implements Cloneable
+{
+	int a;
+	Demo()
+	{
+	}
+	
+	Demo(int a)
+	{
+		this.a = a;
+	}
+	
+	public Object clone() throws CloneNotSupportedException
+	{
+		Demo d = (Demo) super.clone();
+		return d;
+	}
+	
+	public String toString()
+	{
+		return "Demo[" + a + "]"; 
+	}
+}
+
+
+class First implements Cloneable
+{
+	int b;
+	Demo d;
+	
+	First()
+	{
+	}
+	
+	First(int b, Demo d)
+	{
+		this.b = b;
+		this.d = d;
+	}
+	
+	public Object clone() throws CloneNotSupportedException
+	{
+		First f = (First)super.clone();	//creating and returning reference of cloned object here
+		f.d = (Demo)this.d.clone();
+		return f;
+	}
+	
+	public String toString()
+	{
+		return "First[" + d + "," + b + "]";
+	}
+}
+
+class DeepCloningDemo
+{
+	public static void main(String args[]) throws CloneNotSupportedException
+	{
+		Demo d1 = new Demo(10);
+		First f1 = new First(15,d1);
+		System.out.println("f1: "+f1);
+		
+		First f2 = (First)f1.clone();
+		System.out.println("f2: "+ f2);
+		
+		f2.b = 20;
+		System.out.println("f1: "+f1);
+		System.out.println("f2: "+ f2);
+		
+		f1.d.a = 25;
+		System.out.println("f1: "+f1);
+		System.out.println("f2: "+ f2);
+	}
+}
+
+OUTPUT:
+-------------
+
+f1: First[Demo[10],15]
+f2: First[Demo[10],15]
+f1: First[Demo[10],15]
+f2: First[Demo[10],20]
+f1: First[Demo[25],15]
+f2: First[Demo[10],20]
+
+=========================================================
+
+Enumeration
+--------------
+
+- We use keyword 'enum' to create enumeration
+- It also behaves like class. But we can not create its object using new.
+- It is a list of named constants.
+- All the member of the enumeration are public and static
+- All the member of the enumeration are actually the object of its own enclosing enum.
+
+
+Role Id: 1  ==> Admin
+Role Id: 2  ==> Faculty
+Role Id: 3  ==> Student
+
+
+if(user.roleId == 1)
+if(user.role == Role.ADMIN)
+
+enum Role
+{
+	ADMIN,FACULTY,STUDENT;
+}
+
+ADMIN, FACULTY, STUDENT are the fixed objects of the enum Role and we can not create any other object using new for enum.
+new Role();		//ERROR; we can not use new with enum
+
+Ordinal value for ADMIN,FACULTY,STUDENT are 0,1,2 respectively.
+
+===================================================
+
+varargs ==> Variable no. of arguments.
+----------------------------------------
+
+
+void myFun(String str, int... vals)		//int... vals ==> int[] vals
+{
+}
+
+
+myFun("Hello",2,5,7);
+
+myFun("Hi",10);
+
+
+myAnotherFun(String... names)
+{
+}
+
+
+myAnotherFun("Raj", "Geeta", "Aakash", "Meera");
+
+
+===============================================================
+
+instanceOf
+--------------
+
+class First
+{
+}
+
+class Second extends First
+{
+}
+
+class Third
+{
+}
+
+class InstanceOfDemo
+{
+	public static void main(String args[])
+	{
+		//instanceof operator
+		First f1 = new First();
+		
+		if(f1 instanceof First)
+		{
+			System.out.println("f1 is the instance of First");
+		}
+		else
+		{
+			System.out.println("f1 is not an instance of First");
+		}
+		
+		Second s1 = new Second();
+		if(s1 instanceof Second)		//true
+		{
+			System.out.println("s1 is the instance of Second");
+		}
+		else
+		{
+			System.out.println("s1 is not an instance of Second");
+		}
+		
+		
+		if(s1 instanceof First)			//true
+		{
+			System.out.println("s1 is the instance of First");
+		}
+		else
+		{
+			System.out.println("s1 is not an instance of First");
+		}
+		
+		
+		f1 = new Second();
+		
+		if(f1 instanceof Second)
+		{
+			System.out.println("f1 is the instance of Second");
+		}
+		else
+		{
+			System.out.println("f1 is not an instance of Second");
+		}
+			
+	}
+}
+
+
+OUTPUT:
+----------
+
+f1 is the instance of First
+s1 is the instance of Second
+s1 is the instance of First
+f1 is the instance of Second
+
+
+==========================================================
+
+Date and Time
+----------------
+
+Date object => formatted String  ex. dd/mm/yyyy
+
+String to Date object ==> String "24/Nov/2020"  ==> convert it to java.util.Date object ==> dd/mm/yyyy
+
+java.util.Date;
+java.text.DateFormat;
+java.text.SimpleDateFormat;
+
+import java.util.*;
+import java.text.*;
+class SimpleDateFormatDemo
+{
+	public static void main(String args[]) throws ParseException
+	{
+		Date d = new Date();
+		System.out.println(d);
+
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM,Locale.UK);
+		String s = df.format(d);
+		System.out.println("Formatted Date (Locale.UK): "+s);
+		
+		df = DateFormat.getDateInstance(DateFormat.SHORT,Locale.FRANCE); //LONG, MEDIUM, SHORT
+		s = df.format(d);
+		System.out.println("Formatted Date (Locale.FRANCE): "+s);
+		
+		//Date object => formatted String 
+		
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		sdf.applyPattern("dd/MM/yyyy HH:mm");
+		//sdf.applyPattern("dd/MMM/yyyy HH:mm");
+		s = sdf.format(d);
+		System.out.println("SimpleDateFormat date: "+s);
+		
+		//String to Date conversion
+		String strDate="24/Nov/2020";  
+    		Date date1=new SimpleDateFormat("dd/MMM/yyyy").parse(strDate);  
+    		System.out.println(strDate+"\t"+date1);
+    		
+	}
+}
+
+
+OUTPUT:
+------------
+Tue Apr 07 12:27:27 IST 2026
+Formatted Date (Locale.UK): 07-Apr-2026
+Formatted Date (Locale.FRANCE): 07/04/26
+SimpleDateFormat date: 07/04/2026 12:27
+24/Nov/2020	Tue Nov 24 00:00:00 IST 2020
+
+
+==========================================================
+
+
+Reflection API
+---------------
+
+To know the details (data,methods) about class at the runtime.
+Each class has a Class object.
+If we want to know the type or class of any object at runtime we can user reflection API.
+
+
+class First
+{
+}
+
+----------------------------------------------------------------
+To get the Class object of any class we can do the following:
+
+Class clsObj = First.class;	//It will give Class object of First
+OR;
+First f = new First();
+Class clsObj = f.getClass();	////It will also give Class object of First
+
+Using Class object, we can invoke even private methods of the class from the outside of the class.
+
+Class clsObj1 = MyClass.class
+
+Class
+Method
+Field
+
+getFields()
+getMethods()
+getDeclaredMethod()
+setAccessible()
+invoke();
+
+Program:
+
+import java.lang.reflect.*;
+
+class MyClass
+{
+	private int a;
+	public int b;
+	static int c;
+
+	MyClass()
+	{
+		System.out.println("Zero Argument Constructor");
+	}
+
+	MyClass(int a, int b)
+	{
+		System.out.println("Two Argument Constructor");
+		this.a = a;
+		this.b = b;
+	}
+
+	private void myFun1()
+	{
+		System.out.println("private method myFun1 of MyClass");
+	}
+
+	public void myFun2()
+	{
+		System.out.println("public method myFun2 of MyClass");
+	}
+
+	private void myFun3(int x, double y)
+	{
+		System.out.println("private method myFun3 of MyClass");
+	}
+	
+	static private void myFun4()
+	{
+		System.out.println("private static method myFun4 of MyClass");
+	}
+
+}
+
+
+class ReflectionAPIDemo
+{
+	public static void main(String args[]) throws Exception
+	{
+		MyClass myObj1 = new MyClass(5,10);
+		
+		//Getting Class object to MyClass
+		//Class clsObj = myObj1.getClass();
+		Class clsObj = MyClass.class;
+		
+		System.out.println("myObj1 is the object of "+ clsObj.getName());
+		//System.out.println("myObj1 is the object of "+ myObj1.getClass().getName());
+		
+		Method[] methods = clsObj.getMethods();
+		
+		System.out.println("------ Methods ------");
+		for(Method m : methods)
+		{
+			System.out.println(m.getName());
+		}
+		
+		System.out.println("------ Fields ------");
+		Field[] fields = clsObj.getFields();
+		for(Field f : fields)
+		{
+			System.out.println(f.getName());
+		}
+		
+		System.out.println("------ Invoking a private method myFun3 from outside class ------");
+		Method m1 = clsObj.getDeclaredMethod("myFun1");
+		m1.setAccessible(true);
+		m1.invoke(myObj1);	//call myObj1.myFun1()
+		
+		Method m2 = clsObj.getDeclaredMethod("myFun3",int.class,double.class);
+		m2.setAccessible(true);
+		m2.invoke(myObj1,10,15.6);	//call myObj1.myFun3(10,15.6)
+		
+		Method m4 = clsObj.getDeclaredMethod("myFun4");
+		m4.setAccessible(true);
+		//m4.invoke(myObj1);	//call myObj1.myFun4()
+		m4.invoke(MyClass.class);	//call MyClass.myFun4()
+		
+	}
+}
+
+OUTPUT:
+---------
+
+Two Argument Constructor
+myObj1 is the object of MyClass
+------ Methods ------
+myFun2
+wait
+wait
+wait
+equals
+toString
+hashCode
+getClass
+notify
+notifyAll
+------ Fields ------
+b
+------ Invoking a private method myFun3 from outside class ------
+private method myFun1 of MyClass
+private method myFun3 of MyClass
+private static method myFun4 of MyClass
+
+
+==================================================================
+
+Regular Expression
+--------------------
+To search/match any string pattern in the given string.
+
+Hi, java is my favorite language. I like java the most. But I don't like javascript.
+
+Hi, my mobile no. is 09898989898 and your mobile no. is +918989898989
+
++918989898989 - is it a valid mobile no.
+abc@gmail.com - is it a valid email id.
+
+abc#gmail.com - not a valid email
+
+
+regular expression: [235]{2}
+
+25 - valid
+23 - valid
+32 - valid
+34 - not valid
+56 - not valid
+235 - not valid
+22 - valid
+33 - valid
+222 - not valid
+
+regular expression: [235]{2,4}
+
+25 - valid
+23 - valid
+32 - valid
+34 - not valid
+56 - not valid
+235 - valid
+22 - valid
+33 - valid
+222 - valid
+2353 - valid
+23533 - not valid
+2 - not valid
+
+ 
+regular expression: [235]{3,}
+
+25 - invalid
+23 - invalid
+32 - invalid
+34 - invalid
+56 - invalid
+235 - valid
+22 - invalid
+33 - invalid
+222 - valid
+2353 - valid
+23533 - valid
+2 - not valid
+
++ => one or more time.
+regular expression: [235]{1,}  or [235]+
+
+2 => valid
+3 => valid
+23 => valid
+43 => invalid
+23553523 => valid
+24 => invalid
+
+* => zero or more time.
+regular expression: [235]{0,}  or [235]*
+
+"" => Empty string is also valid
+2 => valid
+3 => valid
+23 => valid
+43 => invalid
+23553523 => valid
+24 => invalid
+
+* => zero or more time.
+regular expression: 5*
+
+5	valid
+55	valid
+555 	valid
+
+* => zero or more time.
+regular expression: [235]{0,1}  or [235]?
+
+""  	valid
+2   	valid
+3	valid
+5 	valid
+4	invalid
+
+
+regular expression: [a-d]{2}
+
+ab - valid
+ac - valid
+dd - valid
+ee - invalid
+bb - valid
+
+regular expression for email: [a-zA-Z][a-zA-Z0-9]*@(gmail|yahoo|cdac).(com|in)
+
+
+
+
+
+
+
+
+

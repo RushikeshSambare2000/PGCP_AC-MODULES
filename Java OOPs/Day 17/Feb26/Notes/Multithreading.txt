@@ -1,0 +1,353 @@
+Thread in java can be created using:
+Thread class
+Runnable interface
+
+
+For program ==> starting point is main() method
+For thread  ==> starting point is run() method
+
+Thread: We can not extend/inherit any other class if a thread class is extending Thread.
+Runnable: We can extend/inherita any other class also.
+
+class One extends Thread
+{
+}
+
+class One extends First implements Runnable
+{
+}
+
+
+Thread.currentThread().getName();	//Returns the name of the current running thread.
+
+Execution order of the threads are not fixed.
+
+Thread.sleep(1000);		//1000 millisecond = 1 second; sleep ==> pause
+=====================================================================
+Program:
+class MyThread extends Thread		//MyThread is a Thread class.
+{
+	public void run()
+	{
+		System.out.println(Thread.currentThread().getName()+" thread started");
+	}	
+}
+
+
+
+class ThreadDemo
+{
+	public static void main(String args[])
+	{
+		MyThread mt1 = new MyThread();
+		MyThread mt2 = new MyThread();
+		MyThread mt3 = new MyThread();
+		
+		//start() method
+		mt1.start();
+		mt2.start();
+		mt3.start();
+		
+	}
+}
+
+OUTPUT:
+-----------
+Thread-0 thread started
+Thread-2 thread started
+Thread-1 thread started
+
+=============================================================
+
+Program:
+class MyThread extends Thread		//MyThread is a Thread class.
+{
+	public MyThread(String threadName)
+	{
+		super(threadName);
+	}
+	
+	public void run()
+	{
+		try
+		{
+			System.out.println(Thread.currentThread().getName()+" thread started");
+			Thread.sleep(500);
+			System.out.println(Thread.currentThread().getName()+" thread ended");
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}	
+}
+
+class ThreadDemo1
+{
+	public static void main(String args[]) throws InterruptedException
+	{
+		System.out.println(Thread.currentThread().getName()+" thread started");
+		
+		MyThread mt1 = new MyThread("MyThread1");
+		MyThread mt2 = new MyThread("MyThread2");
+		MyThread mt3 = new MyThread("MyThread3");
+		
+		//start() method
+		mt1.start();
+		mt2.start();
+		mt3.start();
+
+		//join() method
+		mt1.join();		//Main thread waiting here for mt1 to complete its task and join
+		mt2.join();		//Main thread waiting here for mt2 to complete its task and join
+		mt3.join();		//Main thread waiting here for mt3 to complete its task and join 				
+		
+		//Thread.sleep(1000);	//Main thread will sleep/pause
+		
+		System.out.println(Thread.currentThread().getName()+" thread ended");
+	}
+}
+
+OUTPUT:
+--------------
+main thread started
+MyThread1 thread started
+MyThread2 thread started
+MyThread3 thread started
+MyThread2 thread ended
+MyThread1 thread ended
+MyThread3 thread ended
+main thread ended
+
+================================================================
+
+Creating Thread object using Runnable interface
+------------------------------------------------
+
+Thread object creation is done only by using Thread class.
+
+-------------------------------------------
+class MyThread extends Thread
+{
+
+};
+
+MyThread mt1 = new MyThread();		//It is a thread object
+
+-------------------------------------------
+
+class MyThread implements Runnable
+{
+
+};
+
+MyThread mt1 = new MyThread();		//It is not a thread object. It is a Runnable object
+
+
+To create Thread object from the Runnable object, we will do the following
+
+Thread t1  = new Thread(runnableObject);	//Now it is a Thread object
+t1.start();					//start() will use the run() method of runnableObject
+
+
+-------------------------------------------
+
+Program: Using Runnable creating Thread objects
+
+class MyThread implements Runnable		
+{
+	public void run()
+	{
+		try
+		{
+			System.out.println(Thread.currentThread().getName()+" thread started");
+			Thread.sleep(500);
+			System.out.println(Thread.currentThread().getName()+" thread ended");
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}	
+}
+
+class RunnableDemo
+{
+	public static void main(String args[]) throws InterruptedException
+	{
+		System.out.println(Thread.currentThread().getName()+" thread started");
+		
+		MyThread mt1 = new MyThread();		//Not a thread object, it is Runnable object
+		MyThread mt2 = new MyThread();		//Not a thread object, it is Runnable object
+		MyThread mt3 = new MyThread();		//Not a thread object, it is Runnable object
+		
+		//Thread t1 = new Thread(mt1);			//Now it is Thread object
+		Thread t1 = new Thread(mt1,"MyThread1");	//Now it is Thread object
+		Thread t2 = new Thread(mt2,"MyThread2");	//Now it is Thread object
+		Thread t3 = new Thread(mt3,"MyThread3");	//Now it is Thread object
+		
+		//t1, t2, t3 are Thread object.
+		t1.start();
+		t2.start();
+		t3.start();
+		
+		t1.join();
+		t2.join();
+		t3.join();
+		
+		System.out.println(Thread.currentThread().getName()+" thread ended");
+	}
+}
+
+OUTPUT:
+-----------
+main thread started
+MyThread1 thread started
+MyThread2 thread started
+MyThread3 thread started
+MyThread3 thread ended
+MyThread1 thread ended
+MyThread2 thread ended
+main thread ended
+
+
+===================================================================
+
+class MyThread implements Runnable		
+{
+	Thread t;
+	
+	public MyThread()
+	{
+		t = new Thread(this);
+		//t.start();
+	}
+	
+	public MyThread(String threadName)
+	{
+		t = new Thread(this,threadName);
+		//t.start();
+	}
+	
+	public void run()
+	{
+		try
+		{
+			System.out.println(Thread.currentThread().getName()+" thread started");
+			Thread.sleep(500);
+			System.out.println(Thread.currentThread().getName()+" thread ended");
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}	
+}
+
+class RunnableDemo1
+{
+	public static void main(String args[]) throws InterruptedException
+	{
+		System.out.println(Thread.currentThread().getName()+" thread started");
+		
+		MyThread mt1 = new MyThread("MyThread1"); //mt1 is Runnable object not Thread object		
+		MyThread mt2 = new MyThread("MyThread2");		
+		MyThread mt3 = new MyThread("MyThread3");		
+		
+		//mt1.start();		//ERROR; because mt1 is not Thread object
+		mt1.t.start();		
+		mt2.t.start();
+		mt3.t.start();
+		
+		//mt1.join();		//ERROR; because mt1 is not Thread object
+		mt1.t.join();
+		mt2.t.join();
+		mt3.t.join();
+		
+		System.out.println(Thread.currentThread().getName()+" thread ended");
+	}
+}
+
+OUTPUT:
+-------------
+main thread started
+MyThread1 thread started
+MyThread3 thread started
+MyThread2 thread started
+MyThread1 thread ended
+MyThread2 thread ended
+MyThread3 thread ended
+main thread ended
+
+
+===================================================================
+
+
+Synchronization
+-----------------
+
+At a time only one thread should be able to access the resource. 
+Resource here is any object.
+
+Synchronization in java is done by two ways:
+Synchronized method
+Synchronized block
+
+NOTE:
+Whenever we are considering synchronization issue, we should keep in mind that synchronization is managed with respect to the SINGLE SAME OBJECT which is being accessed and used by the different threads.
+ 
+
+[Hello][Welcome][Friends]
+
+
+synchronized public void printMessage(String msg)		//SynchronizedMethod
+{
+}
+
+synchronized(obj)
+{
+ 	//block of code using the obj
+}
+
+IMPORTANT NOTE:
+
+If a method/block is synchronized that method/block can be accessed/used by only one thread at a time through the SAME object. But that method/block can be accessed/used by different thread at the same time if those threads are trying to access the block/methods using different object.
+
+
+========================================
+
+synchronized void method1()
+void method2()
+synchronized void method3()
+
+Single object ==> obj
+
+Thread1
+Thread2
+Thread3
+
+All the above thread have the same obj.
+
+If thread1 has acquired the lock/monitor/semaphore over obj then thread2 and thread3 will not be able to access/use any of the synchronized methods/blocks using the same obj at the same time. It means at that time thread2 and thread3 will not be able to use method1 and method3 but it can use method2 as method is non-synchronized.
+
+wait() - Current running thread goes in waiting state and releases the lock/monitor/semaphor.
+notify() - Notification is sent to only one thread in waiting state that a particular resource is free to use.
+notifyAll() - Notification is sent to all the waiting threads that a particular resourxe is free to use.
+
+All the above three methods are used inside synchronized method/block.
+All the above three methods are the methods of Object class and not the Thread class.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

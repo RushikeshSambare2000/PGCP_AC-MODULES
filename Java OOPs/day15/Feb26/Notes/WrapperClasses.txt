@@ -1,0 +1,199 @@
+Wrapper classes are used to wrap the primitive data into object.
+
+Primitive data: byte, short, int, long, float, double, char, boolean
+
+int a;
+
+There are respective wrapper classes for each primitive type:
+
+byte ==> Byte
+short ==> Short
+int ==> Integer
+long ==> Long
+float ==> Float
+double ==> Double
+char ==> Character
+boolean ==> Boolean
+
+There are various classes/frameworks which work upon objects only and not on primitive type. e.g. Collection Framework.
+
+Numeric wrapper classes (Byte, Short, Integer, Long, Float, Double) inherits an abstract class Number. Numbers has following abstract methods:
+
+byte byteValue();
+short shortValue();
+int intValue();
+long longValue();
+float floatValue();
+double doubleValue();
+
+So the above six methods are defined in all the numeric wrapper classes.
+
+===========================================================
+
+1. Primitive to Wrapper
+2. Wrapper to Primitive
+3. String to Primitive
+4. Primitive to String
+5. String to Wrapper
+6. Wrapper to String
+
+
+Primitive to Wrapper
+----------------------
+
+ex: int --> Integer
+
+int a = 10;
+Integer iob = new Integer(a);
+
+Wrapper to Primitive
+---------------------
+
+Integer iob = new Integer(100);
+int a = iob.intValue();
+
+String to Primitive
+---------------------
+
+String str = "125";
+int a = Integer.parseInt(str);
+
+Primitive to String
+--------------------
+
+int a = 235;			
+String s = String.valueOf(a);
+
+
+String to Wrapper
+------------------
+
+String --> Primitive --> Wrapper
+String --> Wrapper
+
+String s = "345";
+int a = Integer.parseInt(s);
+Integer iob = new Integer(a);
+
+String s = "345";
+Integer iob = Integer.valueOf(s);
+
+String s = "345";
+Integer iob = new Integer(s);
+
+
+Wrapper to String
+------------------
+
+Wrapper --> Primitive --> String
+Wrapper --> String
+
+Integer iob = new Integer(543);
+int a = iob.intValue();
+String s = String.valueOf(a);
+
+
+Integer iob = new Integer(543);
+String s = String.valueOf(iob);
+
+Integer iob = new Integer(543);
+String s = iob.toString();
+
+========================================
+
+Summarized method list
+------------------------
+
+constructor ==> new Integer()
+intValue()  ==> returns int primitive
+valueOf()   ==> returns Wrapper/String object
+parseInt()  ==> returns int primitive from the input string
+toString()  ==> returns String from wrapper object
+
+========================================
+
+All primitive classes overrides Objects equals(), hashCode(), toString() methods.
+
+here equals() does deep comparison i.e. it compares the value and not the references.
+
+If we have to compare references we can use ==.
+
+========================================
+
+Boxing and Unboxing
+--------------------
+
+Boxing ==> Primitive to wrapper class object.
+Unboxing ==> Wrapper class object to primitive.
+
+ 
+========================================
+
+int a = 10;
+
+Integer iob = new Integer(a);		//Boxing
+
+int b = iob.intValue();			//Unboxing
+
+========================================
+
+Auto-boxing and Auto-unboxing
+------------------------------
+
+Boxing and unboxing is done automatically in java.
+
+int a = 10;
+
+Integer iob = a;		//Auto-boxing
+
+int b = iob;			//Auto-unboxing
+
+========================================
+
+When there is possibility to use primitive type, then we should try to use primitive only and avoid the use of wrapper. If using primitive is not possible then only use wrapper classes. Because using wrapper adds extrea overhead.
+
+
+Integer iob = 10;		//Auto-boxing
+int res = iob * 2;
+System.out.println(res);	//Will print 20
+
+========================================
+
+
+Integer iob1 = 23;
+Integer iob2 = 23;
+
+iob1.compareTo(iob2);		//returns 0
+
+========================================
+
+We can perform all the numeric operations like ++, --, +, -, *, / same with the wrapper object as we do with primitive data.
+
+ex.
+
+Integer iob = new Integer(100);
+int res = ++iob;
+System.out.println(res);	//will print 101
+
+
+========================================
+
+Integer iobj1 = 123;	//constant pool
+Integer iobj2 = 123;	//constant pool
+Integer iobj3 = new Integer(123);	//heap
+Integer iobj4 = new Integer(123);	//heap
+
+System.out.println("iobj1 == iobj2 : " + (iobj1 == iobj2));
+System.out.println("iobj1 == iobj3 : " + (iobj1 == iobj3));
+System.out.println("iobj3 == iobj4 : " + (iobj3 == iobj4));
+System.out.println("iobj1.equals(iobj3) : " + (iobj1.equals(iobj3)));
+
+OUTPUT:
+iobj1 == iobj2 : true
+iobj1 == iobj3 : false
+iobj3 == iobj4 : false
+iobj1.equals(iobj3) : true
+
+
+equals() method does deep comparison here. It has been overridden here.
+

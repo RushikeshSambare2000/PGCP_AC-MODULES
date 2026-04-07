@@ -1,0 +1,710 @@
+Java is platform independent.
+JDK = Compiler + Interpreter (Needed for java application development)
+JRE = Interpreter
+
+JIT (Just In Time compiler)
+It compiles the part of byte code which is frequently used and saves the compiled code. The part of code which is compiled by the compiler is known as hotspot.
+
+First Java Program
+--------------------
+
+//code
+
+class MyDemo
+{
+	//code
+}
+
+//single line comment
+/* multiline
+   comments */
+
+
+//filename : MyFirstProgram.java
+
+class MyFirstProgram
+{
+	public static void main(String args[])
+	{
+		System.out.println("Hello Friends!!");
+	}
+}
+
+javac ==> compiler
+java  ==> interpreter
+
+
+step 1: javac MyFirstProgram.java    (it will compile and generate byte code as MyFirstProgram.class)
+step 2: java MyFirstProgram	     (it will take byte code i.e. class file as input and execute it)
+
+
+Data Types in Java
+--------------------
+primitive data types: byte,short,int,long,float,double,char,boolean
+
+int val;	//val is a variable which will be used to store the integer values.
+
+val = 500;
+
+val = true;	//ERROR
+
+boolean ===> only two values ===> either true or false
+
+boolean b;
+
+b = true;
+
+b = 30; 	//ERROR
+
+
+To store integer values ==> byte, short, int, long
+To store float values   ==> float, double
+To store single character  ==> char
+To store boolean values (true/false) ==> boolean
+
+
+------------------------
+
+byte bt;
+bt = 260;		//error: incompatible types: possible lossy conversion from int to byte
+System.out.println("val of bt = " + bt);
+		
+		
+error: incompatible types: possible lossy conversion from int to byte
+
+default data type for literals
+integer value ==> int
+float value ==> double
+
+example of literals =>  200, 325.56, 125, 5, 23.567
+
+500 ==> int
+23.5 ==> double
+
+bt = 260;     // byte = int
+
+bt = 125;     // byte = int
+
+following assignments are possible, but sometime needs casting in case of lossy conversion.
+int = byte
+byte = int
+int = float
+float = int
+float = double
+double = float
+
+int x = 34;
+double y = 23.56;
+
+x = y;			//int = double;  ERROR: lossy conversion. Explicit casting is required.
+
+x = (int)y;
+
+y = x;			//double = int;  No Error
+
+y = (double) x;		//automatically it is happening. Implicit casting
+
+conversion is just assigning a different data type into another data type.
+
+Typecasting is basically casting one type into another.
+
+
+
+numeric1 = numeric2 ;		//assignment possible
+
+smaller = bigger  (lossy conversion error and hence required explicit typecasting)
+
+bigger = smaller (no need of explicit casting. Implicit casting is used there)
+
+
+int = boolean;		//assignment is not possible
+
+
+---- In c/c++ ----
+if(1)		// in java it is wrong. Java has only true or false. No numeric values for true/false.
+{
+}
+
+OR;
+
+if(true)
+{
+}
+
+------------------
+
+--- In java --- 
+if(true)
+{
+}
+---------------
+
+int n = 30;
+if(n % 2 == 0)			true/false
+{
+}
+
+
+
+int x1 ;
+bolean y1 = true;
+
+x1 = (int)y1;		//ERROR
+
+int = char;			//Assignment is possible
+char = int;			//Assignment is possible
+numeric type1 = numeric type2 	//Assignment is possible
+
+numeric type ==> byte, short, int, long, float, double   ==> Assignment among these is possible.
+char-numeric  ==> char, numeric  ==> Assignment between these two is possible.	
+
+
+left = right
+
+casting is always done according to the left side data type.
+
+---------------------------------------------
+byte bt;
+bt = (byte)260;			//byte = int
+
+Binary of 260 = 100000100 (9 bits)  ; byte capacity is 1 byte (8 bits)
+
+1 00000100
+
+00000100  (8th bit is sign bit which is 0 here means it is a positive value) => binary of 4
+
+260 % 256 = 4
+
+Binary of 130 = 10000010 (8 bits)
+
+MSB (Most significant Bit gives the sign positive or negative. 0 => positive, 1 => negative)
+
+Binary: 10000010		(8th bit is sign bit, here it is 1 means it is a negative value)
+
+Java uses 2's complement for the negative values.
+
+value: 10000010  (-126)
+1's complement: 01111101
+2's complement: 01111110 (126)
+
+---------------------------------------------
+class DataTypeDemo
+{
+	public static void main(String args[])
+	{
+		int val = 260;
+		System.out.println("Value = " + val);
+		
+		byte bt;
+		bt = (byte)260;			//byte = int
+		System.out.println("val of bt = " + bt); //Output: 4
+		
+		bt = (byte)130;			//byte = int
+		System.out.println("val of bt = " + bt); //Output: -126
+		
+	}
+}
+---------------------------------------------------
+
+Loop & control statements
+---------------------------
+
+loop: while, do-while, for
+mostly used loop: for
+
+print 1 to 10.
+
+
+int i = 1;		//initialization
+while (i <= 10)		//condition
+{
+	System.out.println(i);
+	i++;		//increment
+}
+
+
+
+int i = 1;		//initialization
+do
+{
+	System.out.println(i);
+	i++;		//increment
+} while (i <= 10);	//condition
+
+do-while executes atleast once.
+
+
+for(int i = 0; i <= 10; i++)
+{
+	System.out.println(i);
+}
+
+
+if, else-if
+break - used with loop, switch-case, labelled scope
+continue - used with loop 
+
+in switch-case ---> default is not mandatory. 
+
+if(condition)
+{
+	sop();		//only one statement
+}
+
+OR;
+
+if(condition)
+	sop();
+	
+Same for loop - if single statement then we can remove bracket.
+
+--------------------------------------------
+
+Scope of a variable
+--------------------
+
+
+
+See the opening bracket and the corresponding closing bracket for the declared variable in which it is eclosed.
+
+//code
+
+{
+	int a = 5;
+	System.out.println(a);
+}
+System.out.println(a);
+
+
+--------------------------------------------
+
+Java is case sensitive;
+
+int val;
+int Val;
+
+both are different.
+
+=============================================
+
+Octal number starts with zero 
+Hexadecimal number starts with zero small/capital X
+
+example:
+
+All the following basically stores 93 as a value.
+
+int a = 93;		//Decimal
+
+Or;
+
+int a = 0135;		//Octal
+
+Or;
+
+int a = 0X5D;		//Hexadecimal
+
+Or;
+
+int a = 0x5D;		//Hexadecimal
+
+sop(a) for all the above cases will print 93.
+
+------------------------------------------------
+
+Literals
+
+235		//default type int
+35.7		//default type double
+
+float fl = 35.7;			//float = double - a case of lossy conversion ==> compilation error
+
+To fix:
+
+1. folat fl = (float)35.7;
+2. float fl = 35.7f;
+
+sop(f);
+
+------------------------
+//float fl = 35.6;		//float = double; CE possible lossy conversion 
+//float fl = 35.6f;		//OK
+//float fl = 35.6F;		//OK
+//float fl = (float) 35.6;	//OK
+double fl = 35.6;
+System.out.println(fl);
+		
+//long lv = 3333333;	//long = int
+//long lv = 3333333333;	//long = int; Compilation Error: integer number too large
+long lv = 3333333333L;	//long = long; OK
+System.out.println(lv);
+
+Character Literals
+-------------------
+Java uses Unicode (16 bit).
+
+//char ch = 'a';      //char assignment
+//char ch = 97;	      //decimal assignment
+//char ch = '\141';  //Octal assignment \ddd
+//char ch = '\u0061';  //Hexa assignment	\udddd
+//char ch = 0141;	//char ch = 97
+char ch = 0X61;
+
+System.out.println(ch);		//All the above will print a.
+
+===================================
+
+Widening and Narrowing Conversion (Typecasting)
+
+int a = 25;
+double d = 23.5;
+
+d = a;				//double = int; greater = smaller; Widening conversion
+a = (int) d;			//int = double  ; smaller = greater; Narrowing conversion
+
+===================================
+Type Promotion
+---------------
+
+int a = 5;
+double d = 25.3;
+
+int res = a * d;
+
+int res = (int) a * d;
+OR;
+int res = (int) (a * d);
+
+int = int * double; 	==> int = double * double ==> int = double (CE: lossy conversion)  
+			==> int = (int)double;
+
+
+byte * short 		==> int * int;
+
+//int res = a * d;			//CE: possible lossy conversion
+//double res = a * d;
+//int res = (int)a * d;			//CE: possible lossy conversion
+int res = (int)(a * d);	
+
+System.out.println(res);
+
+res = a * ch;				//OK
+System.out.println(res);		//OK; works
+
+========================================
+Identifier
+------------
+Any name given to the class, methods, variables.
+
+int age;		//age is an identifier
+
+class Student{}		//Student is an identifier
+
+void setAge(){}		//setAge is an identifier
+
+
+class 2DArrayDemo	//Invalid identifier name
+{
+}
+
+class Array2DDemo {}	//Valid identifier name
+
+
+Upper camel case ===> for class, interfaces	==> class StudentDetails{}; interface DBConnection{}
+Lower camel case ===> for others (methods, variables, object name) e.g. ageOfStudent; setDatOfStudent();
+constants name ===> All capital example "YELLOW", "PI", "MAX_PRIORITY"
+package name ===> All small ==> import java.util.Scanner;
+
+
+========================================
+
+Operators
+-----------
+
+a * b;    // Operator => * , operands => a, b  Binary operator
+
+++a;
+--a;	//Operator = --, operand => a  Unary operator
+
+
+a + b * c;  	// First * and then +
+a + b / c * d;  // First /, then * then +
+
+--------------------
+Arithmetic Assignment Operator
+
+a = a + b;
+
+The above statement can also be written as
+
+a += b;
+
+a = a + 1;  
+OR;
+a += 1;
+
+a = a * b;
+OR;
+a *= b;
+
+------------------
+Increment & Decrement Operators (++ and --)
+
+++ ----> post, pre
+-- ----> post, pre
+
+++a;	//pre increment
+a++;	//post increment
+
+--a;	//pre decrement
+a--;	//post decrement
+
+
+int a = 5;
+++a; 		//a = a + 1;
+sop(a);		//will print 6
+
+int a = 5;
+a++;		//a = a + 1;
+sop(a);		//will print 6
+
+NOTE: ++a and a++ both increments the value of a by 1.
+
+Major thing is that which value has to be used in the expression i.e. before increment or after increment.
+
+a++ ==> which value of a (incremented or without incremented) will be used here in the expression
+Ans. ==> the value before increment 
+
+++a ==> which value of a (incremented or without incremented) will be used here in the expression
+Ans. ==> the value after increment 
+
+int a = 5;
+int b;
+b = ++a;	//First increment a by 1 and then assign it
+sop(a);		//6
+sop(b);		//6
+
+
+int a = 5;
+int b;
+b = a++;	//First assign a to b and then increment a by 1
+sop(a);		//6
+sop(b);		//5
+
+
+int a = 5;
+int b;
+
+b = a++ + ++a;	// b = 5 + 7
+sop(a);		// 7
+sop(b);		// 12
+
+
+a = 7
+
+int a = 5;
+b = a-- + --a + a++;
+
+===========================================
+
+int a = 5;
+int b = -a;
+sop(b);		// -5
+
+
+======================================
+
+Bitwise operators ==> & (and), | (or), ~ (not), ^ (xor)
+
+int a = 6;
+int b = 10;
+int c = a & b;
+sop(c);		// will print 2
+
+
+int res = ~a;	
+sop(res);	// will print -7
+
+binary of 6 = 0000 0110
+~(0000 0110) => 1111 1001 ==> 2's complement ==> 0000 0111 ==> binary of 7
+	
+===================================
+Shift operators: << left shift, >> right shift, >>> right shift with zero fill
+
+<< left shift gives multiplaction by 2.
+In left shift the vacant place is filled by zero.
+
+int a = 6;
+int res = a << 3;	// 6 * 2 * 2 * 2
+sop(res);		// 48
+
+>> right shift gives division by 2
+In right shift the vacant place is filled by the sign bit.
+
+int a = 16;
+int res = a >> 2;	// 16 / 2 = 8 / 2 = 4
+sop (res);		// 4
+
+>>> right shift with zero fill. Also known as unsigned right shift.
+It fills 0 at the vacant place. while in normal right shift sign bit is put at the vacant place.
+
+int a = -1;
+int res = a >>> 24;
+sop(res);	// 255
+
+a = a >>> 2;
+OR;
+a >>>= 2;
+==========================================
+
+Relational operators ==> <, >, ==, <=, >=, !=
+
+if(a = b)	// b is assigned to a
+
+if (a == b)	// b is compared with a	
+
+==========================================
+
+Boolean Logical Operators 
+
+& (and), | (or), ^ (xor)  ===> also used for bitwise operation with numbers
+
+Bitwise - ~ (not) - reverts the bit
+Boolean - ! (not) - reverts the boolean value
+
+int a = 6;
+int b = 10;
+
+int res = a & b;
+sop(res);	// 2
+
+--------
+
+boolean b1 = true;
+boolean b2 = false;
+
+boolean res = b1 & b2;
+sop (res);	// false
+
+--------
+
+&& => All the conditions are true then overall expression is considered true.
+&  => Same as && but only difference is the way expression is processed.
+
+int age = 18;
+
+if(age >= 20 && age <= 30)
+
+step: will check 18 >= 20 => gives false. So result is determined here itself as false and it will not go further and check 18 <= 30.
+
+if(age >= 20 & age <= 30)
+
+step: will check 18 >= 20 => gives false. Result is not determined here. It will go further and also check 18 <= 30 and then will decide the final result i.e. true or false.
+
+int x = 1;
+int y = 5;
+int d = 0;
+
+if(x == 0 && y++ < 10)
+{
+	d = 10;
+}
+
+sop(x);		// 1
+sop(y);		// 5
+sop(d);		// 0
+
+--------------
+
+int x = 1;
+int y = 5;
+int d = 0;
+
+if(x == 0 & y++ < 10)
+{
+	d = 10;
+}
+
+sop(x);		// 1
+sop(y);		// 6
+sop(d);		// 0
+
+---------------
+
+psvm()
+{
+	int x = 1;
+	int y = 5;
+	int d = 0;
+	
+	if(x == 0 || y++ < 10)
+	{
+		d = 10;
+	}
+
+	sop(x);		// 1
+	sop(y);		// 6
+	sop(d);		// 10
+}
+
+--------------
+
+Local variable must be initialized before its use. Otherwise it will give you compilation error.
+
+When we declare a variable inside any method or scope then it is known as local variable.
+
+Local variable does not have a default value.
+
+int a;		//Local
+It does not mean a has zero by default.
+
+psvm()
+{
+	int a;		//Local variable
+	
+	a = a * 5;
+	
+	sop(a);
+}
+
+==========================================
+Ternary Operator (? :)
+
+condition ? value return on true : value return on false
+
+
+
+Find out larger between two numbers.
+
+int a = 5;
+int b = 10;
+
+int res;
+
+if(a > b)
+{
+	res = a;
+}
+else
+{
+	res = b;
+}
+
+sop(res);
+
+Using ternary operator
+----------------------
+int a = 5;
+int b = 10;
+
+int res;
+
+res = a > b ? a++ : b++;
+
+sop(res);		// will print 10;
+sop(b);			// will print 11;
+
+
+
+
+

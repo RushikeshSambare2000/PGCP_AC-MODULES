@@ -1,0 +1,131 @@
+Day 16: 6 April 2026
+----------------------
+
+Java Input Output (Java I/O)
+---------------------------------
+
+java.io.*;		
+
+To read/write data from/to the file.
+
+1. Byte Stream 
+2. Character Stream
+
+
+Byte Stream - audio, video, images, binary data, files etc.
+Character Stream - files
+
+
+ByteStream
+-----------
+
+File		: To create file object for input and output file
+FileInputStream : For reading from the file
+FileOutputStream : For writing to the file
+BufferedInputStream : Buffered Reading
+BufferedOutputStream : Buffered Writing
+
+read() : returns -1 if no next byte to read
+write()
+close()
+flush() 
+
+
+CharacterStream
+----------------
+File
+FileReader : For reading from the file
+FileWriter : For writing to the file
+BufferedReader : Buffered  Reading
+BufferedWriter : Buffered Writing
+
+read()
+write()
+close()
+flush()
+readLine() --- BufferedReader -- Returns null when end of file is reached
+
+
+File outFile = new File("output.txt");
+FileWriter fw = new FileWriter(outFile);
+
+OR;
+We don't need to create the File object
+
+FileWriter fw = new FileWriter("output.txt");		//OK
+
+===================================================
+
+Reading from the console
+--------------------------
+
+InputStreamReader
+BufferedReader
+
+
+System.in ==> Keyboard
+System.out ==> Console
+System.err ==> Console (Used for showing errors)
+
+
+===================================================
+
+NIO - New Input Output
+
+- It is Non-blocking I/O (Input Output)
+
+Buffer
+Channel
+Selector 
+
+InputStream --> Channel --> Buffer --> Read
+OutputStream --> Channel --> Buffer --> Write
+
+
+=================================================
+
+Serialization
+-----------------
+
+- To store/save/transfer object onto the network/secondary storage.
+
+FileInputStream
+ObjectInputStream -- readObject();
+
+FileOutputStream
+ObjectOutputStream -- writeObject();
+
+Object which is to be serialized must implement the marker interface Serializable.
+
+class Student implements Serializable
+{
+}
+
+So, now Student objects can be serialized.
+
+Marker Interface: Serializable, Cloneable, Remote
+Marker Interface: Interface without any abstract method.
+
+Ex:
+interface MyInterface
+{
+}
+
+=============================================
+
+File class is not used to read/write to the file. It is basically used to know the properties of file.
+
+File f = new File("input.txt");
+f.read();		//ERROR;
+
+if(f.exists())
+if(f.isDirectory())
+f.list();
+
+
+
+
+
+
+
+

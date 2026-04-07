@@ -1,0 +1,146 @@
+String is a sequence of characters.
+String is not terminated by a null character in java.
+
+Creating a String object
+--------------------------
+
+String str1 = "Hello";		//OK; stored in String Constant Pool
+String str2 = new String("Welcome"); //OK; stored in Heap Area
+
+String str3 = "Hello";  //First it will search in the constant pool
+			//If it is there it will use the same and keep the reference of the same
+			//and If it is not there it will create a new String Hello and will keep
+			//reference of that.
+			
+String str4 = new String("Hello");
+String str5 = new String ("Hello");
+			
+Any string can not be duplicated in the constant pool.
+But string can be duplicated in the heap area, if we use new to create the String.
+
+==============================
+
+equals() --> String class has overridden the equals() method from the parent Object class. --> Deep comparison
+
+== --> We will use this for comparing reference.
+
+==============================
+
+class StringDemo
+{
+	public static void main(String args[])
+	{
+		String str1 = "Hello";		//OK; stored in String Constant Pool
+		String str2 = new String("Welcome"); //OK; stored in Heap Area
+		
+		System.out.println("str1 : " + str1);
+		System.out.println("str2 : " + str2);
+		
+		String str3 = "Hello";  //First it will search in constant pool
+		String str4 = new String("Hello");
+		String str5 = new String("Hello");
+		
+		if(str1 == str3)		//TRUE
+		{
+			System.out.println("str1 == str3 : true"); 
+		}
+		
+		if(str1 == str4)		//FALSE
+		{
+			System.out.println("str1 == str4 : true"); 
+		}
+		
+		if(str4 == str5)		//FALSE
+		{
+			System.out.println("str4 == str5 : true"); 
+		}
+		
+		if(str1.equals(str4))		//TRUE
+		{
+			System.out.println("str1.equals(str4) : true"); 
+		}
+		
+	}
+}
+
+OUTPUT:
+str1 : Hello
+str2 : Welcome
+str1 == str3 : true
+str1.equals(str4) : true
+
+==============================
+
+compareTo() : returns zero 0 if both the strings are equal otherwise it returns the difference of the ascii value of the two chars where difference comes.
+
+ex. 
+str1 = "Welcome";
+str2 = "Welgone"
+
+str1.compareTo(str2); 	//will return -4 which difference of ascii values of c and g.
+str2.compareTo(str1);   //will return 4 which difference of ascii values of g and c.
+
+if(str1.compareTo(str2) == 0)
+{
+	//do something
+}
+else
+{
+	//do something
+}
+
+=============================
+
+substring() method
+--------------------
+
+String str = "Welcome";
+String str1 = str.substring(3);		//It will return "come"
+String str2 = str.substring(2,6);	//It will return "lcom"
+
+indexOf()
+----------
+
+str.indexOf('e');	//will return 1
+
+=============================
+
+String str = "Hello    Friends";
+str.replace(' ',''); 	//will return HelloFriends ; removed all the spaces
+=============================
+
+isEmpty()
+---------
+String str = "";
+str.isEmpty();		//will return true
+
+str = " ";
+str.isEmpty();		//will return false
+
+=============================
+split()
+------
+
+String str = "pq@rccc@xy@zccc";
+str.split("c",0);
+
+pq@r
+""
+""
+@xy@z
+""
+""
+""
+
+=============================
+
+String - immutable (Can't be changed)
+StringBuffer - mutable (Can be changed) - useful in multithreading as it is thread safe
+StringBuilder - mutable (Can be changed)
+
+StringBuffer strBfr = "Welcome";		//ERROR; StringBuffer = String; No parent child relation
+
+
+
+
+

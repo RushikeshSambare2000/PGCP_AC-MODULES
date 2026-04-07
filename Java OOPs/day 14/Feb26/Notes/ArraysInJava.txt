@@ -1,0 +1,235 @@
+Arrays
+--------
+
+Array is a collection of similar type of data.
+Conitnuous memory allocation happens for array.
+
+type ---> int array (will store only int values)
+type ---> double array (will store only double values)
+
+
+There is no pointer in java.
+
+There is a reference variable concept in java.
+
+int arr[];			//It is not creating an array. Here arr is a reference variable.
+
+Here arr is a reference variable which will keep the reference of an array.		
+
+Creating array: We use new keyword to create array.
+
+Syntax: new datatype [];
+e.g. new int[5];
+
+new int[5];		//Will allocate memory to store 5 integer values.
+new double[5]; 		//will allocate memory to store 5 double values
+
+
+arr[2];			//Accessing the 3rd element in the array
+
+
+Default value
+int ==> 0
+float/double ==> 0.0
+char ==> null character
+boolean ==> false
+reference variable ==> null   ==> no reference is stored there
+
+
+Reference variable 
+-------------------
+Variable which is used to keep the reference of something (array, object etc.)
+We can not store plain values in reference variable. It is used to store only reference.
+
+User Input
+------------
+We can use Scanner class.
+
+import java.util.Scanner;
+
+class ScannerDemo
+{
+	public static void main(String args[])
+	{
+		int age;
+		double salary;
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter your age: ");
+		
+		age = sc.nextInt();
+		System.out.println("Your age is " + age);
+		
+		System.out.println("Enter your salary: ");
+		salary = sc.nextDouble();
+		
+		System.out.println("Your salary is " + salary);
+	}
+}
+
+--------------------------------
+
+Scanner class methods:
+
+To read integer => nextInt();
+To read float   => nextFloat();
+To read double	=> nextDouble();
+To read boolean	=> nextBoolean();
+
+int x = null;		//Error
+float y = null;		//Error; x and y are not a reference variable so we can not assign null here.
+
+----------------------------------
+
+int arr[];			//Array is not created; only reference variable is created.
+arr = new int[5];		//Array is created and its reference is stored in arr.
+
+OR;
+
+int arr[] = new int[5];		//Array is created as well as its reference is stored in arr.
+
+--------------------------------------
+
+int x;
+x = 10;
+
+OR;
+
+int x = 10;
+
+----------------------------------------
+
+
+int arr[] = {2,5,3,8,6};		//Correct. Initializing array. Here array size is 5.
+
+double darr[] = {25.3,43.2,65.7}	//Correct. Array of double value with size 3.
+
+----------------------------------------
+
+Following declartions of array reference are correct.
+
+int arr[];
+
+OR;
+
+int []arr;
+
+----------------------------------------
+
+Two dimensional array
+
+- It has rows and columns
+
+Syntax to create 2D Array:    new datatype[rows][cols];
+
+e.g. 
+int arr1[][] = new int[3][2];				//OK
+int [][]arr1 = new int[3][2];				//OK; Total elements 6
+double arr2[][] = new double[5][7];			//Total elements 35
+
+----------------------------
+int [][]arr;
+arr = new int[2][3];
+OR;
+int [][] arr = new int[2][3];
+
+============================
+
+What does new do?
+new always allocates memory and returns the reference of the allocated memory.
+
+Heap memory  ==> when we use new, it allocates memory in heap.
+
+============================
+
+int x;
+int y;
+int z;
+
+OR;
+
+int x,y,z;
+
+---------------
+
+All the following declarations are correct.
+
+int [] ar1;
+int [] ar2;
+int [] ar3;
+
+OR;
+
+int [] ar1,ar2,ar3;
+
+OR;
+
+int ar1[], ar2[], ar3[];
+
+-----------------
+
+int [] ar1,ar2,ar3 = new int[5];
+
+The above statement will allocate memory only once for storing 5 integers and will save its reference in ar3.
+
+ar1 => null
+ar2 => null
+ar3 => contains the reference of the allocated array of int.
+
+-----------------
+
+Jagged Array:
+(Irregular multidimensional array)
+
+An array may have different number of elements in different row. Such array is known as jagged array.
+
+Each array has a property known as length which returns the length of the array.
+
+int ar[] = {2,5,4,7,8};
+
+ar.length; 		//will give 5
+sop(ar.length); 	//It will print 5;
+
+
+double dar[] = {23.5,34.7,12.3};
+dar.length;		//will give 3;
+
+
+int jagArr[][] = new int[3][];
+
+for()  -- row
+{
+	//take input from user for each row
+	for() -- col
+	{
+		
+	}
+}
+
+-------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
