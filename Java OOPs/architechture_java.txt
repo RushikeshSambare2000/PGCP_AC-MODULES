@@ -1,3 +1,5 @@
+(jvm+lib set)+dev tool = jdk
+
 step 1 : create java file and write an program  (javac test.java)
 
 step 2 : compilation of .java file is started... and converted .java file into .class file(byte code)
@@ -38,10 +40,12 @@ step 4 : class loading subsystem.
 						-for above class class loader subsystem loaded test.class, string.class,object.class, student.class repace with atual ref)
                         -actual ref is stored in constant pool memory of that class.						
 				 iii)Initialization
+
 (Note : class loader subsystem is responsible to load .class file and any other required prefined classes, to load this classes and some memory is required 
         so for that memory area is comes in picture)
+
 		Memory area:
-		    a)method area
+		        a)method area
 			    when jvm started only one method area is created and share with all threads, so method area is not thread safe.
 			    -class meta data
 			    -static variable

@@ -1,0 +1,17 @@
+Q1 . Which statement about variable scope in C++ functions is most accurate?
+
+A
+A global variable defined in one source file is automatically visible in all other source files of the same project.
+
+B
+A local variable inside a block is destroyed when program execution leaves that block, even if the function has not yet returned.
+
+C
+A function parameter always has global scope within that function.
+
+D
+A static local variable is reinitialized every time the function is called.
+
+Correct
+This option correctly captures how automatic storage duration works in C++. A local variable defined inside a block (enclosed by braces) has block scope and automatic storage. It is constructed when execution enters the block and destroyed when execution leaves the block, regardless of whether the surrounding function has returned. This is essential for understanding lifetime of temporaries, RAII objects, and how destructors are triggered on scope exit. It also explains why referencing a local variable outside its block or returning its address leads to undefined behavior: the object no longer exists once you exit the block.
+This behavior differs from static local variables, which persist across calls, and from globals, which exist for the lifetime of the program.

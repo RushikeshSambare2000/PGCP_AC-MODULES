@@ -7,7 +7,7 @@ public class CirculerQueue {
    
 
     boolean isfull(){
-        return(front == 0 && rear==max-1)||(rear+1==max);
+        return(front == 0 && rear==max-1)||(rear+1==front);
     }
 
     boolean isEmpty(){
